@@ -1,5 +1,6 @@
 .gradle/
 .idea/
 local.properties
-*/build/
+android/build/
+core/build
 html/war/

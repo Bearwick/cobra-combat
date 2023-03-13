@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
@@ -13,6 +15,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	float deltaTime;
 	int counter;
 	API api;
+
+	ArrayList<String> hei = new ArrayList<>();
 
 	public MyGdxGame(API firebaseAPI) {
 		this.api = firebaseAPI;
@@ -32,11 +36,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.end();
 
 		deltaTime += Gdx.graphics.getDeltaTime();
+
 		if (deltaTime >= 5f) {
 			counter++;
 			deltaTime = deltaTime % 5 + 0;
 			api.sendMessage(counter);
+			api.getMessage(hei);
+
+			if (hei.size() > 0) {
+				for (String message: hei) {
+					System.out.println(message);
+				}
+			}
 		}
+
 	}
 	
 	@Override
