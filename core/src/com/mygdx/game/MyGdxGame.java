@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -8,7 +9,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+
+	float deltaTime;
+	int counter;
+	API api;
+
+	public MyGdxGame(API firebaseAPI) {
+		this.api = firebaseAPI;
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -21,6 +30,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
+
+		deltaTime += Gdx.graphics.getDeltaTime();
+		if (deltaTime >= 5f) {
+			counter++;
+			deltaTime = deltaTime % 5 + 0;
+			api.sendMessage(counter);
+		}
 	}
 	
 	@Override
