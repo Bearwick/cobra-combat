@@ -1,5 +1,6 @@
 package com.mygdx.game.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
@@ -25,7 +26,10 @@ public class GameMenuState extends State{
 
     @Override
     public void handleInput() {
-
+        System.out.println("yoyoyoyo");
+        if (Gdx.input.justTouched()){
+            gsm.set(new GamePlayState(gsm));
+        }
     }
 
     @Override
