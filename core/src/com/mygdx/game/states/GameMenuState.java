@@ -13,8 +13,13 @@ public class GameMenuState extends State{
     private Texture playBtn;
     private Texture tutorialBtn;
     private Texture customizeBtn;
-    private Texture ccText;
+    private Texture title;
     private Vector3 touchPos;
+
+    private static int playBtnOffset =50;
+    private static int tutorialBtnOffset = -250;
+    private static int customizeBtnOffset = -550;
+    private static int titleOffset = -160;
 
     public GameMenuState(GameStateManager gsm) {
         super(gsm);
@@ -23,7 +28,7 @@ public class GameMenuState extends State{
         playBtn = new Texture("play.png");
         tutorialBtn = new Texture("tutorial.png");
         customizeBtn = new Texture("customize.png");
-        ccText = new Texture("ccText.png");
+        title = new Texture("ccText.png");
         touchPos = new Vector3();
     }
 
@@ -33,12 +38,35 @@ public class GameMenuState extends State{
             touchPos.set(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(touchPos); // calibrates the input to your camera's dimentions
 
+
+            System.out.println("clickX: " + touchPos.x);
+            System.out.println("clickY: " + touchPos.y);
+
+            System.out.println("leftcornerDownX: " + (cam.position.x - (playBtn.getWidth()/2)));
+            System.out.println("leftcornerDownY: " + (cam.position.y+50));
+
+            System.out.println("rightcornerDownX: " + (cam.position.x + (playBtn.getWidth()/2)));
+            System.out.println("rightcornerDownY: " + (cam.position.y+50));
+
+            System.out.println("PlaybuttonWidth: " + (playBtn.getWidth()));
+            System.out.println("PlaybuttonHeight: " + (playBtn.getHeight()));
+
             //If PLAY button is clicked:
             if(touchPos.x > (cam.position.x - (playBtn.getWidth()/2)) && touchPos.x < (cam.position.x + (playBtn.getWidth()/2)))
-                if (touchPos.y >(cam.position.y+50) && touchPos.y < (cam.position.y+50+playBtn.getHeight())){
+                if (touchPos.y >(cam.position.y+playBtnOffset) && touchPos.y < (cam.position.y+playBtnOffset+playBtn.getHeight())){
                     gsm.set(new GamePlayState(gsm));
                 }
+            //if CUSTOMIZE button is clicked:
+            if(touchPos.x > (MyGdxGame.WIDTH/2 - (customizeBtn.getWidth()/2)) && touchPos.x < MyGdxGame.WIDTH/2 + (customizeBtn.getWidth()/2))
+                if (touchPos.y > cam.position.y+customizeBtnOffset && touchPos.y < cam.position.y+customizeBtnOffset+customizeBtn.getHeight()){
+                    gsm.set(new GameCustomizeState(gsm));
+                }
 
+            //If TUTORIAL button is clicked:
+            if(touchPos.x > MyGdxGame.WIDTH/2 - (tutorialBtn.getWidth()/2) && touchPos.x < MyGdxGame.WIDTH/2 + (tutorialBtn.getWidth()/2))
+                if (touchPos.y > cam.position.y + tutorialBtnOffset && touchPos.y < cam.position.y + tutorialBtnOffset + tutorialBtn.getHeight()){
+                    gsm.set(new GameTutorialState(gsm));
+                }
         }
     }
 
@@ -52,11 +80,11 @@ public class GameMenuState extends State{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
-        sb.draw(playBtn, cam.position.x - (playBtn.getWidth()/2), cam.position.y+50);
-        sb.draw(customizeBtn, MyGdxGame.WIDTH/2 - (customizeBtn.getWidth()/2),  cam.position.y-250);
-        sb.draw(tutorialBtn, MyGdxGame.WIDTH/2 - (tutorialBtn.getWidth()/2),  cam.position.y - 550);
+        sb.draw(playBtn, cam.position.x - (playBtn.getWidth()/2), cam.position.y+playBtnOffset);
+        sb.draw(customizeBtn, MyGdxGame.WIDTH/2 - (customizeBtn.getWidth()/2),  cam.position.y+customizeBtnOffset);
+        sb.draw(tutorialBtn, MyGdxGame.WIDTH/2 - (tutorialBtn.getWidth()/2),  cam.position.y + tutorialBtnOffset);
 
-        sb.draw(ccText, MyGdxGame.WIDTH/2 - (ccText.getWidth()/2), MyGdxGame.HEIGHT - 160);
+        sb.draw(title, MyGdxGame.WIDTH/2 - (title.getWidth()/2), MyGdxGame.HEIGHT +titleOffset);
         sb.end();
     }
 
@@ -66,7 +94,7 @@ public class GameMenuState extends State{
         playBtn.dispose();
         tutorialBtn.dispose();
         customizeBtn.dispose();
-        ccText.dispose();
+        title.dispose();
     }
 }
 
