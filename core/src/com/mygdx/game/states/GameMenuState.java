@@ -26,15 +26,25 @@ public class GameMenuState extends State{
 
     @Override
     public void handleInput() {
-        System.out.println("yoyoyoyo");
         if (Gdx.input.justTouched()){
-            gsm.set(new GamePlayState(gsm));
+
+            int x = Gdx.input.getX();
+            int y = MyGdxGame.HEIGHT - Gdx.input.getY();
+            System.out.println("clickX: " + x);
+            System.out.println("clickY: " + y);
+            System.out.println("cornerDownX: " + (cam.position.x - (playBtn.getWidth()/2)));
+            System.out.println("cornerDownY: " + (cam.position.y+50));
+
+            System.out.println("PlaybottonWidth: " + (playBtn.getWidth()/2));
+            System.out.println("PlaybottonHeight: " + (playBtn.getHeight()));
+
+            if(x > (cam.position.x - (playBtn.getWidth()/2)) && x < cam.position.x - (playBtn.getWidth()/2));
         }
     }
 
     @Override
     public void update(float dt) {
-
+        handleInput();
     }
 
     @Override
