@@ -3,6 +3,8 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 
 public class GameMenuState extends State{
@@ -10,9 +12,9 @@ public class GameMenuState extends State{
     private Texture background;
     private Texture playBtn;
     private Texture tutorialBtn;
-
     private Texture customizeBtn;
     private Texture ccText;
+    private Vector3 touchPos;
 
     public GameMenuState(GameStateManager gsm) {
         super(gsm);
@@ -22,23 +24,21 @@ public class GameMenuState extends State{
         tutorialBtn = new Texture("tutorial.png");
         customizeBtn = new Texture("customize.png");
         ccText = new Texture("ccText.png");
+        touchPos = new Vector3();
     }
 
     @Override
     public void handleInput() {
         if (Gdx.input.justTouched()){
+            touchPos.set(Gdx.input.getX(),Gdx.input.getY(), 0);
+            cam.unproject(touchPos); // calibrates the input to your camera's dimentions
 
-            int x = Gdx.input.getX();
-            int y = MyGdxGame.HEIGHT - Gdx.input.getY();
-            System.out.println("clickX: " + x);
-            System.out.println("clickY: " + y);
-            System.out.println("cornerDownX: " + (cam.position.x - (playBtn.getWidth()/2)));
-            System.out.println("cornerDownY: " + (cam.position.y+50));
+            //If PLAY button is clicked:
+            if(touchPos.x > (cam.position.x - (playBtn.getWidth()/2)) && touchPos.x < (cam.position.x + (playBtn.getWidth()/2)))
+                if (touchPos.y >(cam.position.y+50) && touchPos.y < (cam.position.y+50+playBtn.getHeight())){
+                    gsm.set(new GamePlayState(gsm));
+                }
 
-            System.out.println("PlaybottonWidth: " + (playBtn.getWidth()/2));
-            System.out.println("PlaybottonHeight: " + (playBtn.getHeight()));
-
-            if(x > (cam.position.x - (playBtn.getWidth()/2)) && x < cam.position.x - (playBtn.getWidth()/2));
         }
     }
 
