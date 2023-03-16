@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	public static final int WIDTH = 3000;
+	public static final int WIDTH = 3120;
 	public static final int HEIGHT = 1440;
 
 	private GameStateManager gsm;
@@ -33,9 +33,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		//gsm = new GameStateManager();
+		gsm = new GameStateManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		//gsm.push(new GameMenuState(gsm));
+		gsm.push(new GameMenuState(gsm));
 	}
 
 
@@ -57,9 +57,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 		}
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		//gsm.update(Gdx.graphics.getDeltaTime());
-		//gsm.render(batch);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.render(batch);
 
 	}
 
