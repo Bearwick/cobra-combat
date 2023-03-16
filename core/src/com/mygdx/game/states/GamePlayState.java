@@ -39,8 +39,8 @@ public class GamePlayState extends State {
     public void update(float dt) {
         handleInput();
         deltaTime += dt;
-        if (deltaTime >= 1f) {
-            deltaTime = deltaTime % 1 + 0;
+        if (deltaTime >= MyGdxGame.GAMESPEED) {
+            deltaTime = deltaTime % MyGdxGame.GAMESPEED;
 
             player.move();
         }
