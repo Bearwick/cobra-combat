@@ -1,0 +1,6 @@
+.gradle/
+.idea/
+local.properties
+android/build/
+core/build
+html/war/
