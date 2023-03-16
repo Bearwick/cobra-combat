@@ -1,8 +1,0 @@
-com/mygdx/game/states/GameStateManager.java
- com.mygdx.game.states.GameStateManager
-com/mygdx/game/states/State.java
- com.mygdx.game.states.State
-com/mygdx/game/states/GameMenuState.java
- com.mygdx.game.states.GameMenuState
-com/mygdx/game/MyGdxGame.java
- com.mygdx.game.MyGdxGame
