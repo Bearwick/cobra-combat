@@ -15,6 +15,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public static final int WIDTH = 3120;
 	public static final int HEIGHT = 1440;
+	public static final int GRID_CELL_X = WIDTH/32;
+	public static final int GRID_CELL_Y = HEIGHT/16;
+
+	public static final String dir_left = "left";
+	public static final String dir_up = "up";
+	public static final String dir_right = "right";
+	public static final String dir_down = "down";
+
 
 	private GameStateManager gsm;
 	SpriteBatch batch;
