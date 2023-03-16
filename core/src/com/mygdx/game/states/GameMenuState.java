@@ -36,20 +36,7 @@ public class GameMenuState extends State{
     public void handleInput() {
         if (Gdx.input.justTouched()){
             touchPos.set(Gdx.input.getX(),Gdx.input.getY(), 0);
-            cam.unproject(touchPos); // calibrates the input to your camera's dimentions
-
-
-            System.out.println("clickX: " + touchPos.x);
-            System.out.println("clickY: " + touchPos.y);
-
-            System.out.println("leftcornerDownX: " + (cam.position.x - (playBtn.getWidth()/2)));
-            System.out.println("leftcornerDownY: " + (cam.position.y+50));
-
-            System.out.println("rightcornerDownX: " + (cam.position.x + (playBtn.getWidth()/2)));
-            System.out.println("rightcornerDownY: " + (cam.position.y+50));
-
-            System.out.println("PlaybuttonWidth: " + (playBtn.getWidth()));
-            System.out.println("PlaybuttonHeight: " + (playBtn.getHeight()));
+            cam.unproject(touchPos); // calibrates the input to your camera's dimensions
 
             //If PLAY button is clicked:
             if(touchPos.x > (cam.position.x - (playBtn.getWidth()/2)) && touchPos.x < (cam.position.x + (playBtn.getWidth()/2)))
@@ -61,7 +48,6 @@ public class GameMenuState extends State{
                 if (touchPos.y > cam.position.y+customizeBtnOffset && touchPos.y < cam.position.y+customizeBtnOffset+customizeBtn.getHeight()){
                     gsm.set(new GameCustomizeState(gsm));
                 }
-
             //If TUTORIAL button is clicked:
             if(touchPos.x > MyGdxGame.WIDTH/2 - (tutorialBtn.getWidth()/2) && touchPos.x < MyGdxGame.WIDTH/2 + (tutorialBtn.getWidth()/2))
                 if (touchPos.y > cam.position.y + tutorialBtnOffset && touchPos.y < cam.position.y + tutorialBtnOffset + tutorialBtn.getHeight()){

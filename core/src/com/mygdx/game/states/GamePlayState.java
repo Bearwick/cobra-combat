@@ -2,12 +2,14 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.MyGdxGame;
 
 public class GamePlayState extends State {
     private Texture background;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
+        cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("cobraCombatBG.png");
     }
 
