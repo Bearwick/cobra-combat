@@ -15,6 +15,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public static final int WIDTH = 3120;
 	public static final int HEIGHT = 1440;
+	public static final int GRID_CELL_X = WIDTH/32;
+	public static final int GRID_CELL_Y = HEIGHT/16;
+	public static final float GAMESPEED = 0.5f;
+
+	public static final String dir_left = "left";
+	public static final String dir_up = "up";
+	public static final String dir_right = "right";
+	public static final String dir_down = "down";
+
 
 	private GameStateManager gsm;
 	SpriteBatch batch;
@@ -40,10 +49,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(1, 0, 0, 1);
-
+/*
 		deltaTime += Gdx.graphics.getDeltaTime();
-
 		if (deltaTime >= 5f) {
 			counter++;
 			deltaTime = deltaTime % 5 + 0;
@@ -56,10 +63,10 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 		}
+*/
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(batch);
-
 	}
 
 	@Override
