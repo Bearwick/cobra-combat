@@ -18,7 +18,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 	SpriteBatch batch;
-	Texture img;
 
 	float deltaTime;
 	int counter;
