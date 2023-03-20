@@ -6,11 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.sprites.Edible;
+import com.mygdx.game.sprites.EdibleFactory;
 import com.mygdx.game.sprites.PlayerSnake;
 
 public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
+    private EdibleFactory edibleFactory;
+    private Edible testApple;
+    private Edible testApple2;
     private float deltaTime;
 
     private static final int SNAKE_MOVEMENT_X = 32;
@@ -25,6 +30,9 @@ public class GamePlayState extends State {
         shapeRenderer = new ShapeRenderer();
 
         player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
+        edibleFactory = new EdibleFactory();
+        testApple = edibleFactory.getEdible("APPLE");
+        testApple2 = edibleFactory.getEdible("APPLE");
     }
 
     @Override
@@ -52,6 +60,8 @@ public class GamePlayState extends State {
         sb.begin();
         sb.draw(background, 0,0);
         player.getHead().draw(sb);
+        testApple.getBody().draw(sb);
+        testApple2.getBody().draw(sb);
         sb.end();
         drawGrid();
     }
