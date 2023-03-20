@@ -15,11 +15,14 @@ public abstract class Snake {
 
     public Snake(Texture headTexture,Texture bodyTexture){
         this.head = new Sprite(headTexture);
-        head.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
-        head.setOriginCenter();
         this.bodyTexture = bodyTexture;
         body = new Array<BodyPart>();
+
+        head.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
+        head.setOriginCenter();
         position = new Vector2(0,0);
+
+        body.add(new BodyPart(bodyTexture, new Vector2(position.x,position.y-MyGdxGame.GRID_CELL_Y)));
 
     }
 
@@ -56,8 +59,6 @@ public abstract class Snake {
     }
     public void setHeadRotation(float degrees){
         head.setRotation(degrees);
-
-
 
     }
 

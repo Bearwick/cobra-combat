@@ -15,21 +15,36 @@ public class PlayerSnake extends Snake {
     public void move() {
         // translate can be used to move slowly to next position!!!
         if (this.direction == MyGdxGame.dir_up){
+            moveBody();
             setPosition(getPosition().add(0,MyGdxGame.GRID_CELL_Y));
             setHeadRotation(180);
 
         } else if (this.direction == MyGdxGame.dir_down) {
+            moveBody();
             setPosition(getPosition().add(0,-MyGdxGame.GRID_CELL_Y));
             setHeadRotation(0);
 
         } else if (this.direction == MyGdxGame.dir_left) {
+            moveBody();
             setPosition(getPosition().add(-MyGdxGame.GRID_CELL_X,0));
             setHeadRotation(270);
 
         }else if(this.direction == MyGdxGame.dir_right){
+            moveBody();
             setPosition(getPosition().add(MyGdxGame.GRID_CELL_X,0));
             setHeadRotation(90);
+        }
+    }
 
+    private void moveBody(){
+        for (int i = getBody().size-1; i >= 0; i-- ){
+
+            if (i == 0){
+                //Set the position of the first bodypart, equal to the head position.
+                getBody().get(i).getSprite().setPosition(getPosition().x, getPosition().y);
+            }else {
+                getBody().get(i).getSprite().setPosition(getBody().get(i-1).getPosition().x,getBody().get(i-1).getPosition().y);
+            }
 
         }
     }

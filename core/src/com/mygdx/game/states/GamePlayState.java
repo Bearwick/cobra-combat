@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.PlayerSnake;
 
 public class GamePlayState extends State {
@@ -52,6 +53,9 @@ public class GamePlayState extends State {
         sb.begin();
         sb.draw(background, 0,0);
         player.getHead().draw(sb);
+        for(BodyPart bodypart: player.getBody()){
+            bodypart.getSprite().draw(sb);
+        }
         sb.end();
         drawGrid();
     }
