@@ -13,13 +13,11 @@ public class GameCustomizeState extends State{
     private Texture chooseBtn;
     private static int chooseBtnOffset =-550;
     private Vector3 touchPos;
-
     private Texture snake1;
-
     private Texture snake2;
     private static int snakePlacement = 50;
 
-    private int snakeNumber;
+    private static int snakeNumber;
 
 
     protected GameCustomizeState(GameStateManager gsm) {
@@ -31,6 +29,10 @@ public class GameCustomizeState extends State{
         snake1 = new Texture("snakehead.png");
         snake2 = new Texture(("snakehead2.png"));
         snakeNumber = 1;
+    }
+
+    public static int getCustomSnake() {
+        return snakeNumber;
     }
 
     @Override

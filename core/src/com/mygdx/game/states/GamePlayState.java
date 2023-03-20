@@ -24,7 +24,12 @@ public class GamePlayState extends State {
         background = new Texture("dirt.jpg");
         shapeRenderer = new ShapeRenderer();
 
-        player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
+        if (GameCustomizeState.getCustomSnake() == 2) {
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"));
+        }
+        else {
+            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
+        }
     }
 
     @Override
