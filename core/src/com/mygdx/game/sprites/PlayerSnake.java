@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.MyGdxGame;
 
 public class PlayerSnake extends Snake {
+
     private String direction;
     public PlayerSnake(Texture headTexture, Texture bodyTexture) {
         super(headTexture, bodyTexture);
@@ -12,17 +13,24 @@ public class PlayerSnake extends Snake {
 
     @Override
     public void move() {
+        // translate can be used to move slowly to next position!!!
         if (this.direction == MyGdxGame.dir_up){
             setPosition(getPosition().add(0,MyGdxGame.GRID_CELL_Y));
+            setHeadRotation(180);
 
         } else if (this.direction == MyGdxGame.dir_down) {
             setPosition(getPosition().add(0,-MyGdxGame.GRID_CELL_Y));
+            setHeadRotation(0);
 
         } else if (this.direction == MyGdxGame.dir_left) {
             setPosition(getPosition().add(-MyGdxGame.GRID_CELL_X,0));
+            setHeadRotation(270);
 
         }else if(this.direction == MyGdxGame.dir_right){
             setPosition(getPosition().add(MyGdxGame.GRID_CELL_X,0));
+            setHeadRotation(90);
+
+
         }
     }
 

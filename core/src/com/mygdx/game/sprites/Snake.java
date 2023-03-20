@@ -16,6 +16,7 @@ public abstract class Snake {
     public Snake(Texture headTexture,Texture bodyTexture){
         this.head = new Sprite(headTexture);
         head.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
+        head.setOriginCenter();
         this.bodyTexture = bodyTexture;
         body = new Array<BodyPart>();
         position = new Vector2(0,0);
@@ -49,6 +50,15 @@ public abstract class Snake {
     public void setPosition(Vector2 position) {
         this.position = position;
         head.setPosition(position.x, position.y);
+    }
+    public void setHeadFlip(boolean horizontal, boolean vertical){
+        head.setFlip(horizontal, vertical);
+    }
+    public void setHeadRotation(float degrees){
+        head.setRotation(degrees);
+
+
+
     }
 
     public abstract void move();
