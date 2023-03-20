@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.PlayerSnake;
 
 public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
     private float deltaTime;
-
+    float deltaTime2;
     private static final int SNAKE_MOVEMENT_X = 32;
     private static final int SNAKE_MOVEMENT_Y = 16;
 
@@ -44,10 +45,17 @@ public class GamePlayState extends State {
     public void update(float dt) {
         handleInput();
         deltaTime += dt;
+        deltaTime2 += dt;
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
 
             player.move();
+            MyGdxGame.API.sendPos(player.getPlayerData());
+        }
+        if (deltaTime2 >= MyGdxGame.GAMESPEED*3) {
+            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*3;
+
+            player.addBodyPart(player.getLastTailPosition());
         }
     }
 
@@ -56,6 +64,10 @@ public class GamePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
+
+        for(BodyPart bodypart: player.getBody()){
+            bodypart.getSprite().draw(sb);
+        }
         player.getHead().draw(sb);
         sb.end();
         drawGrid();
