@@ -10,16 +10,21 @@ public class BodyPart {
     private Sprite bodypart;
 
     public BodyPart(Texture texture, Vector2 position) {
-        position = new Vector2(position);
-        bodypart = new Sprite(texture);
-        bodypart.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
+        this.position = new Vector2(position);
+        this.bodypart = new Sprite(texture);
+        this.bodypart.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
+        this.bodypart.setOriginCenter();
+        this.bodypart.setPosition(position.x, position.y);
+
+
     }
     public Vector2 getPosition(){
-        return position;
+        return new Vector2(position);
     }
 
     public void setPosition(Vector2 position){
         this.position = position;
+        this.bodypart.setPosition(position.x, position.y);
     }
     public Sprite getSprite(){
         return this.bodypart;
