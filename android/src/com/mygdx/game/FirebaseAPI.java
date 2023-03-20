@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class FirebaseAPI implements API {
     private FirebaseDatabase rtdm;
-    public DatabaseReference myRef;
+    private DatabaseReference myRef;
 
     public FirebaseAPI() {
         this.rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
