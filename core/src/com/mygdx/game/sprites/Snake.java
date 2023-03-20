@@ -65,9 +65,4 @@ public abstract class Snake {
     public abstract void move();
 
     public abstract boolean collides();
-
-
-
-
-
 }
