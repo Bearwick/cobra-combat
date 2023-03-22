@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	float deltaTime;
 	int counter;
-	API api;
+	public static API api;
 
 	ArrayList<String> hei = new ArrayList<>();
 
