@@ -6,12 +6,12 @@ import com.mygdx.game.MyGdxGame;
 
 public class PlayerSnake extends Snake {
     private String direction;
+
     public Vector2 lastTailPosition;
     private PlayerData playerData;
     public PlayerSnake(Texture headTexture, Texture bodyTexture) {
         super(headTexture, bodyTexture);
         direction = MyGdxGame.dir_up;
-
         // Creates object for player data such as position. Used for Firebase.
         setPlayerData();
     }
@@ -42,9 +42,11 @@ public class PlayerSnake extends Snake {
             if (i == 0){
                 //Set the position of the first bodypart, equal to the head position.
                 getBody().get(i).setPosition(getHeadPosition());
+                getBody().get(i).setRotation(getHeadRotation());
             }else {
                 //Going from tail to head, set each part position to the position of the part in front of it.
                 getBody().get(i).setPosition(getBody().get(i-1).getPosition());
+                getBody().get(i).setRotation(getBody().get(i-1).getRotation());
             }
         }
         // After the snake has moved, the position in playerData gets changed.
@@ -62,6 +64,7 @@ public class PlayerSnake extends Snake {
         return lastTailPosition;
     }
     public void setDirection(String direction){
+
         this.direction = direction;
     }
 
