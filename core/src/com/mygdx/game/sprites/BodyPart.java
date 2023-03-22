@@ -18,19 +18,16 @@ public class BodyPart {
         this.bodypart.setPosition(position.x, position.y);
         this.rotation=rotation;
         this.bodypart.setRotation(rotation);
-
-
     }
     public Vector2 getPosition(){
         return new Vector2(position);
     }
-
     public void setPosition(Vector2 position){
         this.position = position;
         this.bodypart.setPosition(position.x, position.y);
     }
     public Sprite getSprite(){
-        return this.bodypart;
+        return new Sprite(this.bodypart);
     }
 
     public float getRotation(){

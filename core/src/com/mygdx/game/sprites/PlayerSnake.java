@@ -15,57 +15,58 @@ public class PlayerSnake extends Snake {
         // Creates object for player data such as position. Used for Firebase.
         setPlayerData();
     }
-
     @Override
     public void move() {
-        moveBody();
-        // sprite.translate can be used to move slowly to next position!!!
+        moveBody(); // Body must be moved before the head.
         if (this.direction == MyGdxGame.dir_up){
-            setPosition(getHeadPosition().add(0,MyGdxGame.GRID_CELL_Y));
+            setHeadPosition(getHeadPosition().add(0,MyGdxGame.GRID_CELL_Y));
             setHeadRotation(180);
         } else if (this.direction == MyGdxGame.dir_down) {
-            setPosition(getHeadPosition().add(0,-MyGdxGame.GRID_CELL_Y));
+            setHeadPosition(getHeadPosition().add(0,-MyGdxGame.GRID_CELL_Y));
             setHeadRotation(0);
         } else if (this.direction == MyGdxGame.dir_left) {
-            setPosition(getHeadPosition().add(-MyGdxGame.GRID_CELL_X,0));
+            setHeadPosition(getHeadPosition().add(-MyGdxGame.GRID_CELL_X,0));
             setHeadRotation(270);
         }else if(this.direction == MyGdxGame.dir_right){
-            setPosition(getHeadPosition().add(MyGdxGame.GRID_CELL_X,0));
+            setHeadPosition(getHeadPosition().add(MyGdxGame.GRID_CELL_X,0));
             setHeadRotation(90);
         }
-
     }
 
     private void moveBody(){
+        // Used as a "ghost" tile for when a new body segment is added to the snake
         lastTailPosition = getBody().get(getBody().size-1).getPosition();
+
+        //Going from tail to body closest to head.... so "else" comes first
         for (int i = getBody().size-1; i >= 0; i-- ){
             if (i == 0){
                 //Set the position of the first bodypart, equal to the head position.
                 getBody().get(i).setPosition(getHeadPosition());
                 getBody().get(i).setRotation(getHeadRotation());
             }else {
-                //Going from tail to head, set each part position to the position of the part in front of it.
+                // set each part position to the position of the part in front of it.
                 getBody().get(i).setPosition(getBody().get(i-1).getPosition());
                 getBody().get(i).setRotation(getBody().get(i-1).getRotation());
             }
         }
+
         // After the snake has moved, the position in playerData gets changed.
-
-
-        /*NOTE TURNED OFF BECAUSE COULD NOT HANDLE GROWING SNAKE*/
-        //updatePositionalData();
+        //updatePositionalData(); /*NOTE TURNED OFF BECAUSE COULD NOT HANDLE GROWING SNAKE*/
     }
 
+    public void addBodyPart(Vector2 lastTailPosition){
+        //Add a body segment at the tail, with same rotation as the tail.
+        body.add(new BodyPart(bodyTexture, lastTailPosition,body.get(body.size-1).getRotation()));
+    }
+    public Vector2 getLastTailPosition(){
+        return new Vector2(lastTailPosition);
+    }
+    public void setDirection(String direction){
+        this.direction = direction;
+    }
     @Override
     public boolean collides() {
         return false;
-    }
-    public Vector2 getLastTailPosition(){
-        return lastTailPosition;
-    }
-    public void setDirection(String direction){
-
-        this.direction = direction;
     }
 
     public PlayerData getPlayerData() {

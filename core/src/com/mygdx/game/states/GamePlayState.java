@@ -12,12 +12,9 @@ import com.mygdx.game.sprites.PlayerSnake;
 public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
+    private PlayerSnake player;
     private float deltaTime;
     float deltaTime2;
-    private static final int SNAKE_MOVEMENT_X = 32;
-    private static final int SNAKE_MOVEMENT_Y = 16;
-
-    private PlayerSnake player;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
@@ -52,9 +49,8 @@ public class GamePlayState extends State {
             player.move();
             MyGdxGame.API.sendPos(player.getPlayerData());
         }
-        if (deltaTime2 >= MyGdxGame.GAMESPEED*3) {
-            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*3;
-
+        if (deltaTime2 >= MyGdxGame.GAMESPEED*8) {
+            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*8;
             player.addBodyPart(player.getLastTailPosition());
         }
     }
@@ -70,7 +66,7 @@ public class GamePlayState extends State {
         }
         player.getHead().draw(sb);
         sb.end();
-        drawGrid();
+        //drawGrid();
     }
 
     private void drawGrid(){ //Helper function to draw see-through grid, copy-pasted.
