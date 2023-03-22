@@ -12,6 +12,7 @@ public abstract class Snake {
     private Sprite head;
     private Array<BodyPart> body;
     private Vector2 position;
+    private float headRotation;
 
     public Snake(Texture headTexture,Texture bodyTexture){
         this.head = new Sprite(headTexture);
@@ -22,7 +23,7 @@ public abstract class Snake {
         head.setOriginCenter();
         position = new Vector2(0,0);
 
-        body.add(new BodyPart(bodyTexture, new Vector2(position.x,position.y-MyGdxGame.GRID_CELL_Y)));
+        body.add(new BodyPart(bodyTexture, new Vector2(position.x,position.y-MyGdxGame.GRID_CELL_Y),90));
 
     }
 
@@ -34,14 +35,14 @@ public abstract class Snake {
     }
 
     public void insertBodyPart(){
-        body.insert(0, new BodyPart(bodyTexture, position));
+        body.insert(0, new BodyPart(bodyTexture, position,headRotation));
     }
     public void addBodyPart(Vector2 lastTailPosition){
         //Krever en del mer logikk å legge til en hale på enden av slangen,
         // hvis den ikke skal ligge på samme posisjon som den forrige halen.
         //Men det krever at vi flytter hala elementer, når det er enklest å bare la dem stå stille og fjerne/legge til
         // for hver flytt.
-        body.add(new BodyPart(bodyTexture, lastTailPosition));
+        body.add(new BodyPart(bodyTexture, lastTailPosition,body.get(body.size-1).getRotation()));
     }
     public void popBodyPart(){
         body.pop();
@@ -59,7 +60,10 @@ public abstract class Snake {
     }
     public void setHeadRotation(float degrees){
         head.setRotation(degrees);
-
+        this.headRotation = Float.valueOf(degrees);
+    }
+    public float getHeadRotation(){
+        return Float.valueOf(headRotation);
     }
 
     public abstract void move();
