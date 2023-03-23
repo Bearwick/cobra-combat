@@ -11,6 +11,7 @@ import com.mygdx.game.sprites.Edible;
 import com.mygdx.game.sprites.EdibleFactory;
 import com.mygdx.game.sprites.PlayerSnake;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GamePlayState extends State {
@@ -20,9 +21,7 @@ public class GamePlayState extends State {
     private float deltaTime;
     float deltaTime2;
     EdibleFactory edibleFactory;
-    HashMap<Integer, Edible> edibleHashMap;
-    Edible testApple1;
-    Edible testApple2;
+    ArrayList<Edible> edibleArray;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
@@ -33,7 +32,7 @@ public class GamePlayState extends State {
         for (int i=0; i<5; i++){
             edibleFactory.getEdible("APPLE");
         }
-        edibleHashMap = edibleFactory.getEdibleHashMap();
+        edibleArray = edibleFactory.getEdibleArray();
 
 
 
@@ -65,7 +64,7 @@ public class GamePlayState extends State {
             player.move();
             MyGdxGame.API.sendPos(player.getPlayerData());
         }
-        if (player.hasEaten(edibleHashMap)) {
+        if (player.hasEaten(edibleArray)) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
             player.addBodyPart(player.getLastTailPosition());
             edibleFactory.getEdible("APPLE");
@@ -79,7 +78,7 @@ public class GamePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
-        for (Edible e: edibleHashMap.values()){
+        for (Edible e: edibleArray){
             e.getBody().draw(sb);
         }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlayerSnake extends Snake {
@@ -81,10 +82,10 @@ public class PlayerSnake extends Snake {
         return false;
     }
 
-    public boolean hasEaten(HashMap<Integer, Edible> edibleHashMap){
-        for(Integer i: edibleHashMap.keySet()){
-            if (headBounds.overlaps(edibleHashMap.get(i).getBounds())){
-                edibleHashMap.remove(i);
+    public boolean hasEaten(ArrayList<Edible> edibleArray){
+        for(Edible e: edibleArray){
+            if (headBounds.overlaps(e.getBounds())){
+                edibleArray.remove(e);
                 return true;
             }
     }

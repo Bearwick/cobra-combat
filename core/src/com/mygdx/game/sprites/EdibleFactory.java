@@ -4,11 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class EdibleFactory {
-    protected HashMap<Integer,Edible> edibleHashMap = new HashMap<Integer, Edible>();
+    protected ArrayList<Edible> edibleArray = new ArrayList<Edible>();
     private Array<Vector2> ediblePositions = new Array<Vector2>(); //Array to help avoid overlapping spawning
     private Vector2 generateRandomPosition(){ //helper method to generate random vector
         Vector2 randomVector = new Vector2();
@@ -35,14 +36,14 @@ public class EdibleFactory {
             Edible edible;
             edible = new Apple(randomPosition);
             ediblePositions.add(edible.getPosition());
-            edibleHashMap.put(edibleHashMap.size(),edible);
+            edibleArray.add(edible);
             return edible;
         }
         return null;
     }
 
-    public HashMap<Integer,Edible> getEdibleHashMap(){
-        return edibleHashMap;
+    public ArrayList<Edible> getEdibleArray(){
+        return edibleArray;
     }
 
 
