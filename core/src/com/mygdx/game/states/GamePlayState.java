@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sprites.BodyPart;
+import com.mygdx.game.sprites.Edible;
+import com.mygdx.game.sprites.EdibleFactory;
 import com.mygdx.game.sprites.PlayerSnake;
 
 public class GamePlayState extends State {
@@ -15,12 +17,21 @@ public class GamePlayState extends State {
     private PlayerSnake player;
     private float deltaTime;
     float deltaTime2;
+    EdibleFactory edibleFactory;
+    Edible testApple1;
+    Edible testApple2;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
         shapeRenderer = new ShapeRenderer();
+        edibleFactory = new EdibleFactory();
+        testApple1 = edibleFactory.getEdible("APPLE");
+        testApple2 = edibleFactory.getEdible("APPLE");
+
+
+
 
         if (GameCustomizeState.getCustomSnake() == 2) {
             player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"));
@@ -62,13 +73,17 @@ public class GamePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
+        testApple1.getBody().draw(sb);
+        testApple2.getBody().draw(sb);
 
         for(BodyPart bodypart: player.getBody()){
             bodypart.getSprite().draw(sb);
         }
         player.getHead().draw(sb);
+
         sb.end();
         //drawGrid();
+
     }
 
     private void drawGrid(){ //Helper function to draw see-through grid, copy-pasted.
