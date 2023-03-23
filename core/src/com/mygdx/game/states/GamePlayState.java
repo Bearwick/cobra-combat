@@ -6,22 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.sprites.Edible;
-import com.mygdx.game.sprites.EdibleFactory;
+import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.PlayerSnake;
 
 public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
-    private EdibleFactory edibleFactory;
-    private Edible testApple;
-    private Edible testApple2;
-    private float deltaTime;
-
-    private static final int SNAKE_MOVEMENT_X = 32;
-    private static final int SNAKE_MOVEMENT_Y = 16;
-
     private PlayerSnake player;
+    private float deltaTime;
+    float deltaTime2;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
@@ -29,10 +22,12 @@ public class GamePlayState extends State {
         background = new Texture("dirt.jpg");
         shapeRenderer = new ShapeRenderer();
 
-        player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
-        edibleFactory = new EdibleFactory();
-        testApple = edibleFactory.getEdible("APPLE");
-        testApple2 = edibleFactory.getEdible("APPLE");
+        if (GameCustomizeState.getCustomSnake() == 2) {
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"));
+        }
+        else {
+            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
+        }
     }
 
     @Override
@@ -47,10 +42,16 @@ public class GamePlayState extends State {
     public void update(float dt) {
         handleInput();
         deltaTime += dt;
+        deltaTime2 += dt;
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
 
             player.move();
+            MyGdxGame.API.sendPos(player.getPlayerData());
+        }
+        if (deltaTime2 >= MyGdxGame.GAMESPEED*8) {
+            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*8;
+            player.addBodyPart(player.getLastTailPosition());
         }
     }
 
@@ -59,11 +60,13 @@ public class GamePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
+
+        for(BodyPart bodypart: player.getBody()){
+            bodypart.getSprite().draw(sb);
+        }
         player.getHead().draw(sb);
-        testApple.getBody().draw(sb);
-        testApple2.getBody().draw(sb);
         sb.end();
-        drawGrid();
+        //drawGrid();
     }
 
     private void drawGrid(){ //Helper function to draw see-through grid, copy-pasted.
@@ -81,5 +84,6 @@ public class GamePlayState extends State {
 
     @Override
     public void dispose() {
+
     }
 }
