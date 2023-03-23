@@ -6,8 +6,6 @@ import com.mygdx.game.MyGdxGame;
 
 
 public class EdibleFactory {
-
-    private int edibleAmount = 2; //Amount of edible objects in a game
     private Array<Vector2> ediblePositions = new Array<Vector2>(); //Array to help avoid overlapping spawning
     private Vector2 generateRandomPosition(){ //helper method to generate random vector
         Vector2 randomVector = new Vector2();
@@ -30,7 +28,7 @@ public class EdibleFactory {
             return null;
         }
 
-        if(edibleType.equalsIgnoreCase("APPLE")){
+        if(edibleType.equalsIgnoreCase("APPLE")){ //can implement a similar if-statement to make other edibles
             Edible edible;
             edible = new Apple(randomPosition);
             ediblePositions.add(edible.getPosition());
