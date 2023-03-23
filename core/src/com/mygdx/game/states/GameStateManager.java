@@ -1,6 +1,7 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.API;
 
 import java.util.Stack;
 
@@ -8,8 +9,15 @@ public class GameStateManager {
 
     private Stack<State> states;
 
-    public GameStateManager(){
-        states = new Stack<State>();
+    private API api;
+
+    public GameStateManager(API api){
+        states = new Stack<>();
+        this.api = api;
+    }
+
+    public API getApi() {
+        return this.api;
     }
 
     public void push(State state){

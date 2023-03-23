@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.states.GameMenuState;
 import com.mygdx.game.states.GameStateManager;
 
-import java.util.ArrayList;
-
 public class MyGdxGame extends ApplicationAdapter {
 
 	public static final int WIDTH = 3120;
@@ -24,13 +22,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	private GameStateManager gsm;
-	SpriteBatch batch;
-
-	float deltaTime;
-	int counter;
-	public static API API;
-
-	ArrayList<String> hei = new ArrayList<>();
+	private SpriteBatch batch;
+	private API API;
 
 	public MyGdxGame(API firebaseAPI) {
 		this.API = firebaseAPI;
@@ -39,29 +32,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		gsm = new GameStateManager();
+		gsm = new GameStateManager(this.API);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		gsm.push(new GameMenuState(gsm));
 	}
 
-
 	@Override
 	public void render() {
-		/*
-		deltaTime += Gdx.graphics.getDeltaTime();
-		if (deltaTime >= 5f) {
-			counter++;
-			deltaTime = deltaTime % 5 + 0;
-			api.sendPos();
-			api.getMessage(hei);
-
-			if (hei.size() > 0) {
-				for (String message : hei) {
-					System.out.println(message);
-				}
-			}
-		}
-		*/
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(batch);
