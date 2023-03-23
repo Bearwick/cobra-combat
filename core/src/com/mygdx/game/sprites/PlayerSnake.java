@@ -66,6 +66,13 @@ public class PlayerSnake extends Snake {
     }
     @Override
     public boolean collides() {
+        System.out.println("pos: ");
+        System.out.println(getHeadPosition().x);
+        System.out.println(getHeadPosition().y);
+        if (getHeadPosition().x < 0 || getHeadPosition().x > (MyGdxGame.WIDTH-MyGdxGame.GRID_CELL_X))
+            return true;
+        if (getHeadPosition().y < 0 || getHeadPosition().y > (MyGdxGame.HEIGHT-MyGdxGame.GRID_CELL_Y))
+            return true;
         return false;
     }
 

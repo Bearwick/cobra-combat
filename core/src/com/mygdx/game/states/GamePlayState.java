@@ -49,10 +49,12 @@ public class GamePlayState extends State {
             player.move();
             MyGdxGame.API.sendPos(player.getPlayerData());
         }
-        if (deltaTime2 >= MyGdxGame.GAMESPEED*8) {
-            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*8;
+        if (deltaTime2 >= MyGdxGame.GAMESPEED*4) {
+            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
             player.addBodyPart(player.getLastTailPosition());
         }
+        if (player.collides())
+            gsm.set(new GameOverState(gsm));
     }
 
     @Override

@@ -16,6 +16,7 @@ public abstract class Snake {
 
     public Snake(Texture headTexture,Texture bodyTexture){
         this.head = new Sprite(headTexture);
+
         this.bodyTexture = bodyTexture;
         this.body = new Array<BodyPart>();
         this.head.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
