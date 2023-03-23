@@ -9,9 +9,11 @@ public interface API {
     void getMessage(ArrayList<String> messages);
 
     //  ---------- Setters Game Lobby ----------
-    void createNewLobby();
+    void createNewLobby(String playerName, ArrayList<Boolean> isLoading);
 
     void updateLobby(String lobby);
+    void addLobby(String lobby);
+    void deleteLobby(String lobby);
 
     void updatePosition(String lobby, String displayName);
 
@@ -20,7 +22,7 @@ public interface API {
 
 
     //  ---------- Getters Game Lobby ----------
-    void getLobbies(Map<String, Boolean> lobbies);
+    void getLobbies(Map<String, Boolean> lobbies, ArrayList<Boolean> isLoading);
 
     void getLobbyStatus(String lobby);
 

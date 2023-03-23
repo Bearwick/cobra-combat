@@ -19,7 +19,7 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void createNewLobby() {
+	public void createNewLobby(String playerName, ArrayList<Boolean> isLoading) {
 
 	}
 
@@ -39,11 +39,9 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void getLobbies(Map<String, Boolean> lobbies) {
+	public void getLobbies(Map<String, Boolean> lobbies, ArrayList<Boolean> isLoading) {
 
 	}
-
-
 	@Override
 	public void getLobbyStatus(String lobby) {
 

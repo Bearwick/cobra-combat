@@ -19,6 +19,7 @@ public class GameLobbyState extends State {
     private Texture background;
     private Texture startBtn;
     private Vector3 touchPos;
+    private ArrayList<Boolean> isLoading;
 
     private boolean hasGamelobby = false;
     private String GameLobbyRef;
@@ -40,7 +41,9 @@ public class GameLobbyState extends State {
         this.userName = new BitmapFont();
         this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/15, MyGdxGame.GRID_CELL_Y/15);
         lobbies = new HashMap<>();
-
+        isLoading = new ArrayList<Boolean>();
+        isLoading.set(0, true);
+        isLoading.set(1, false);
 
     }
 
@@ -84,10 +87,9 @@ public class GameLobbyState extends State {
 
     public void createGameSession() {
         if (playerReady && !hasGamelobby) {
-            System.out.println("2");
-            api.getLobbies(lobbies);
-            System.out.println("3");
+            api.getLobbies(lobbies, isLoading);
 
+            if (!isLoading.get(0)) {
 
             if (findOpenGameLobby()) {
                 System.out.println("GameLobbyState: Found open game lobby. Joining lobby: " + GameLobbyRef);
@@ -95,6 +97,7 @@ public class GameLobbyState extends State {
             } else {
                 System.out.println("GameLobbyState: No open game lobbies. Creating new!");
                 createGameLobby();
+            }
             }
 
 
@@ -112,7 +115,7 @@ public class GameLobbyState extends State {
         for (Map.Entry<String, Boolean> entry : lobbies.entrySet()) {
             String lobbyKey = entry.getKey();
             Boolean lobbyValue = entry.getValue();
-            // Do something with the key-value pair
+
             if (lobbyValue){
                 GameLobbyRef = lobbyKey;
                 return true;
@@ -126,7 +129,12 @@ public class GameLobbyState extends State {
     }
     private void createGameLobby() {
         System.out.println("GameLobbyState: Creating new lobby ");
-        hasGamelobby = true;
+        isLoading.set(1, true);
+        api.createNewLobby(playerName, isLoading);
+
+        if (!isLoading.get(1)) {
+            hasGamelobby = true;
+        }
     }
 
     @Override
