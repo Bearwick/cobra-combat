@@ -11,6 +11,9 @@ import com.mygdx.game.sprites.Edible;
 import com.mygdx.game.sprites.EdibleFactory;
 import com.mygdx.game.sprites.PlayerSnake;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
@@ -18,8 +21,7 @@ public class GamePlayState extends State {
     private float deltaTime;
     float deltaTime2;
     EdibleFactory edibleFactory;
-    Edible testApple1;
-    Edible testApple2;
+    ArrayList<Edible> edibleArray;
 
     protected GamePlayState(GameStateManager gsm) {
         super(gsm);
@@ -27,8 +29,10 @@ public class GamePlayState extends State {
         background = new Texture("dirt.jpg");
         shapeRenderer = new ShapeRenderer();
         edibleFactory = new EdibleFactory();
-        testApple1 = edibleFactory.getEdible("APPLE");
-        testApple2 = edibleFactory.getEdible("APPLE");
+        for (int i=0; i<5; i++){
+            edibleFactory.getEdible("APPLE");
+        }
+        edibleArray = edibleFactory.getEdibleArray();
 
 
 
@@ -60,9 +64,10 @@ public class GamePlayState extends State {
             player.move();
             this.gsm.getApi().sendPos(player.getPlayerData());
         }
-        if (deltaTime2 >= MyGdxGame.GAMESPEED*4) {
+        if (player.hasEaten(edibleArray)) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
             player.addBodyPart(player.getLastTailPosition());
+            edibleFactory.getEdible("APPLE");
         }
         if (player.collides())
             gsm.set(new GameOverState(gsm));
@@ -73,8 +78,9 @@ public class GamePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
-        testApple1.getBody().draw(sb);
-        testApple2.getBody().draw(sb);
+        for (Edible e: edibleArray){
+            e.getBody().draw(sb);
+        }
 
         for(BodyPart bodypart: player.getBody()){
             bodypart.getSprite().draw(sb);
