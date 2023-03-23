@@ -40,7 +40,7 @@ public class PlayerSnake extends Snake {
         //Going from tail to body closest to head.... so "else" comes first
         for (int i = getBody().size-1; i >= 0; i-- ){
             if (i == 0){
-                //Set the position of the first bodypart, equal to the head position.
+                // Set the position of the first bodypart, equal to the head position.
                 getBody().get(i).setPosition(getHeadPosition());
                 getBody().get(i).setRotation(getHeadRotation());
             }else {
@@ -51,12 +51,14 @@ public class PlayerSnake extends Snake {
         }
 
         // After the snake has moved, the position in playerData gets changed.
-        //updatePositionalData(); /*NOTE TURNED OFF BECAUSE COULD NOT HANDLE GROWING SNAKE*/
+        updatePositionalData();
     }
 
     public void addBodyPart(Vector2 lastTailPosition){
         //Add a body segment at the tail, with same rotation as the tail.
         body.add(new BodyPart(bodyTexture, lastTailPosition,body.get(body.size-1).getRotation()));
+        // Notify the playerData-object that a new tail has been added
+        playerData.addPosition(lastTailPosition);
     }
     public Vector2 getLastTailPosition(){
         return new Vector2(lastTailPosition);
@@ -99,20 +101,11 @@ public class PlayerSnake extends Snake {
 
     /**
      * Updates the positional data for a player snake.
-     *
-     * || Warning ||: playerData.changePosition only *modifies* the positions
-     *  of existing body segments and can thus throw and error if one tries to
-     *  update the position after getting a new body segment (see comment below)
      */
-
     public void updatePositionalData() {
         playerData.changePosition(0, this.getHeadPosition());
         for (int i=0; i<this.getBody().size-1; i++) {
             playerData.changePosition(i, this.getBody().get(i).getPosition());
         }
     }
-
-    // TODO: add data logic for when a snake gains/loses body parts.
-    //  Potentially in the unimplemented `addBodyPart` and `popBodyPart`.
-
 }
