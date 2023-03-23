@@ -47,7 +47,7 @@ public class GamePlayState extends State {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
 
             player.move();
-            MyGdxGame.API.sendPos(player.getPlayerData());
+            this.gsm.getApi().sendPos(player.getPlayerData());
         }
         if (deltaTime2 >= MyGdxGame.GAMESPEED*4) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
