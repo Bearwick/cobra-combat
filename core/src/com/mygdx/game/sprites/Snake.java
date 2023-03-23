@@ -52,5 +52,9 @@ public abstract class Snake {
     }
     public abstract void move();
 
+    public Rectangle getHeadBounds(){
+        return new Rectangle(headBounds);
+    }
+
     public abstract boolean collides();
 }
