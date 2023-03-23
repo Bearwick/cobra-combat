@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 
+import java.util.HashMap;
+
 public class PlayerSnake extends Snake {
     private String direction;
 
@@ -76,6 +78,16 @@ public class PlayerSnake extends Snake {
             if (headBounds.overlaps(bodypart.getBounds()))
                 return true;
         }
+        return false;
+    }
+
+    public boolean hasEaten(HashMap<Integer, Edible> edibleHashMap){
+        for(Integer i: edibleHashMap.keySet()){
+            if (headBounds.overlaps(edibleHashMap.get(i).getBounds())){
+                edibleHashMap.remove(i);
+                return true;
+            }
+    }
         return false;
     }
 
