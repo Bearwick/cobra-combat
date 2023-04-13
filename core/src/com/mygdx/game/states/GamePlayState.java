@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sprites.BodyPart;
@@ -21,7 +22,7 @@ public class GamePlayState extends State {
     private PlayerSnake player;
     private Texture leftBtn;
     private Texture rightBtn;
-
+    private Vector2 startingPosition;
 
     private Vector3 touchPos;
     private float deltaTime;
@@ -29,7 +30,7 @@ public class GamePlayState extends State {
     EdibleFactory edibleFactory;
     ArrayList<Edible> edibleArray;
 
-    protected GamePlayState(GameStateManager gsm) {
+    protected GamePlayState(GameStateManager gsm, Boolean isPlayer1) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
@@ -41,11 +42,15 @@ public class GamePlayState extends State {
         edibleArray = edibleFactory.getEdibleArray();
         touchPos = new Vector3();
 
+        if (isPlayer1)
+            startingPosition = new Vector2(0,0);
+        else startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
+
         if (GameCustomizeState.getCustomSnake() == 2) {
-            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"));
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition);
         }
         else {
-            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"));
+            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition);
         }
     }
 

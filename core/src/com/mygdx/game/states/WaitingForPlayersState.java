@@ -30,8 +30,10 @@ public class WaitingForPlayersState extends State{
         deltaTime += dt;
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
+
+            // Will return true when another player joins the game!
             if(API.checkForNewPlayers(lobbyName)){
-                gsm.set(new GamePlayState(gsm));
+                gsm.set(new GamePlayState(gsm, true));
             }
         }
     }

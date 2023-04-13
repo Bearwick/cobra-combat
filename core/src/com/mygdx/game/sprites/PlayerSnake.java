@@ -12,8 +12,8 @@ public class PlayerSnake extends Snake {
 
     public Vector2 lastTailPosition;
     private PlayerData playerData;
-    public PlayerSnake(Texture headTexture, Texture bodyTexture) {
-        super(headTexture, bodyTexture);
+    public PlayerSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition) {
+        super(headTexture, bodyTexture, startingPosition);
         direction = MyGdxGame.dir_up;
         // Creates object for player data such as position. Used for Firebase.
         setPlayerData();

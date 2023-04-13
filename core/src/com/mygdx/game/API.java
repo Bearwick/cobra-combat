@@ -13,7 +13,7 @@ public interface API {
     //  ---------- Setters Game Lobby ----------
     void createNewLobby(String lobbyName, LobbyData data);
 
-    void joinLobby(String lobby);
+    Boolean joinLobby(String lobby);
     void deleteLobby(String lobby);
 
     boolean checkForNewPlayers(String lobby);

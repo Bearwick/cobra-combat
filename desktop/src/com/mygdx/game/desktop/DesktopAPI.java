@@ -25,8 +25,8 @@ public class DesktopAPI implements API {
 
 	}
 	@Override
-	public void joinLobby(String lobby) {
-
+	public Boolean joinLobby(String lobby) {
+		return true;
 	}
 	@Override
 	public void deleteLobby(String lobby) {
@@ -34,7 +34,7 @@ public class DesktopAPI implements API {
 	}
 	@Override
 	public boolean checkForNewPlayers(String lobby) {
-		return false;
+		return true;
 	}
 
 	@Override

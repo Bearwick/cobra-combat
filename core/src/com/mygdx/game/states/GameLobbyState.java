@@ -7,9 +7,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.data.PlayerData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +64,7 @@ public class GameLobbyState extends State {
     }
 
     public void findGameSession() {
-        //joinGameLobby();
+        joinGameLobby();
         createGameLobby();
 
 
@@ -71,6 +73,11 @@ public class GameLobbyState extends State {
         API.FindLobby();
         }
     private void joinGameLobby() {
+        if (API.joinLobby(lobbyName)){
+            gsm.set(new GamePlayState(gsm, false));
+        }
+
+
     }
     private void createGameLobby() {
         System.out.println("GameLobbyState: Creating new lobby ");
