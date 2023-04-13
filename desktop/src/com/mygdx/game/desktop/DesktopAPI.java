@@ -2,7 +2,8 @@ package com.mygdx.game.desktop;
 
 
 import com.mygdx.game.API;
-import com.mygdx.game.sprites.PlayerData;
+import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.data.PlayerData;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,51 +21,28 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void createNewLobby(String playerName, ArrayList<Boolean> isLoading) {
+	public void createNewLobby(String lobbyName, LobbyData data) {
 
 	}
-
 	@Override
-	public void updateLobby(String lobby) {
+	public void joinLobby(String lobby) {
 
 	}
-
-	@Override
-	public void addLobby(String lobby) {
-
-	}
-
 	@Override
 	public void deleteLobby(String lobby) {
 
 	}
-
 	@Override
-	public void updatePosition(String lobby, String displayName) {
-
+	public boolean checkForNewPlayers(String lobby) {
+		return false;
 	}
 
 	@Override
-	public void incrementScore(String lobby, String displayName) {
+	public void FindLobby() {
 
 	}
 
-	@Override
-	public void getLobbies(Map<String, Boolean> lobbies, ArrayList<Boolean> isLoading) {
 
-	}
-	@Override
-	public void getLobbyStatus(String lobby) {
 
-	}
 
-	@Override
-	public void getOpponentDisplayName(String lobby) {
-
-	}
-
-	@Override
-	public void getOpponentPosition(String lobby) {
-
-	}
 }

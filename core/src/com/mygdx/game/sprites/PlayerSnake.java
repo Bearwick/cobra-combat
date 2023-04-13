@@ -3,9 +3,9 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.data.PlayerData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PlayerSnake extends Snake {
     private String direction;

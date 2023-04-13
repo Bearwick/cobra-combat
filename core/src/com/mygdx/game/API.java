@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
-import com.mygdx.game.sprites.PlayerData;
+import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.data.PlayerData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public interface API {
@@ -11,24 +11,14 @@ public interface API {
     void getMessage(ArrayList<String> messages);
 
     //  ---------- Setters Game Lobby ----------
-    void createNewLobby(String playerName, ArrayList<Boolean> isLoading);
+    void createNewLobby(String lobbyName, LobbyData data);
 
-    void updateLobby(String lobby);
-    void addLobby(String lobby);
+    void joinLobby(String lobby);
     void deleteLobby(String lobby);
 
-    void updatePosition(String lobby, String displayName);
-
-    void incrementScore(String lobby, String displayName);
-
-
+    boolean checkForNewPlayers(String lobby);
 
     //  ---------- Getters Game Lobby ----------
-    void getLobbies(Map<String, Boolean> lobbies, ArrayList<Boolean> isLoading);
+    void FindLobby();
 
-    void getLobbyStatus(String lobby);
-
-    void getOpponentDisplayName(String lobby);
-
-    void getOpponentPosition(String lobby);
 }

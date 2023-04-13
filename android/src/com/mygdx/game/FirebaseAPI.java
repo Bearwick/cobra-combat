@@ -5,14 +5,12 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mygdx.game.sprites.PlayerData;
-import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.data.PlayerData;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,22 +19,18 @@ import java.util.Random;
 public class FirebaseAPI implements API {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseDatabase rtdm;
-    private DatabaseReference ref;
+    private DatabaseReference lobbyRef;
     private DatabaseReference myRef;
     private Map<String, Boolean> map;
+    Boolean newPlayerHasJoinedLobby = false;
 
     public FirebaseAPI() {
-
         this.rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
 
-        // In-code example that we can change the database reference to
-        // something else on the same level in the rtdm (don't mind the norwenglish)
-        this.myRef = rtdm.getReference("a test oioi");
-        myRef.child("example").setValue("Kan også endre på barna!");
-        // back to the regularly scheduled programming
+        this.lobbyRef = rtdm.getReference("Lobbies");
+        this.myRef = rtdm.getReference("PlayerData");
 
-        this.myRef = rtdm.getReference("testing as of issue number 13 this is only player data for one player");
-
+        //myRef.child("example").setValue("Kan også2 endre på barna!");
     }
 
     @Override
@@ -44,99 +38,57 @@ public class FirebaseAPI implements API {
         myRef.setValue(data);
     }
 
+
+    //  ---------- Setters Game Lobby ----------
+    @Override
+    public void createNewLobby(String lobbyName, LobbyData data) {
+        DatabaseReference gameref = lobbyRef.child(lobbyName);
+        gameref.setValue(data);
+
+    }
+    //  ---------- Getters Game Lobby ----------
+    @Override
+    public void FindLobby() {
+
+    }
+    @Override
+    public void deleteLobby(String lobby) {
+
+    }
+
+    @Override
+    public boolean checkForNewPlayers(String lobbyName) {
+        lobbyRef.child(lobbyName);
+
+        lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                String lobbyState = task.getResult().getValue().toString();
+                System.out.println(lobbyState);
+                System.out.println(!lobbyState.contains("player2=none"));
+                newPlayerHasJoinedLobby = !lobbyState.contains("player2=none}}");
+            }
+        });
+
+        return newPlayerHasJoinedLobby;
+    }
+
+    @Override
+    public void joinLobby(String lobby) {
+
+    }
     @Override
     public void getMessage(ArrayList<String> messages) {
+        //This never runs, i do not know wether it works.
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 System.out.println("Android: fetch message");
                 String res = task.getResult().getValue().toString();
                 messages.add(res);
+                System.out.println(task);
             }
         });
     }
-
-    //  ---------- Setters Game Lobby ----------
-    @Override
-    public void createNewLobby(String playerName, ArrayList<Boolean> isLoading) {
-        DatabaseReference usersRef = ref.child("Lobbies");
-        Random r = new Random();
-        int n = r.nextInt();
-        String Hexadecimal = Integer.toHexString(n);
-        String lobby = "Lobby" + Hexadecimal;
-
-        Map<String, Lobby> newLobby = new HashMap<>();
-        User player1 = new User(playerName);
-        User player2 = new User("Player2");
-
-        Lobby newLobbyInstance = new Lobby(player1, player2);
-        newLobby.put(lobby, newLobbyInstance);
-        usersRef.setValue(newLobby);
-        addLobby(lobby);
-
-        isLoading.set(0, false);
-    }
-    @Override
-    public void updateLobby(String lobby) {
-        myRef.setValue("NewLobby");
-    }
-    @Override
-    public void addLobby(String lobby) {
-        DatabaseReference usersRef = ref.child("LobbyStatus");
-        Map<String, Boolean> lobbyStatus = new HashMap<>();
-        lobbyStatus.put(lobby, true);
-        usersRef.setValue(lobbyStatus);
-    }
-    @Override
-    public void deleteLobby(String lobby) {
-        myRef.setValue("NewLobby");
-    }
-    @Override
-    public void updatePosition(String lobby, String displayName) {myRef.setValue("NewLobby");}
-    @Override
-    public void incrementScore(String lobby, String displayName) {myRef.setValue("NewLobby");}
-
-
-    //  ---------- Getters Game Lobby ----------
-    @Override
-    public void getLobbies(Map<String, Boolean> lobbies, ArrayList<Boolean> isLoading) {
-        this.myRef = rtdm.getReference("LobbyStatus");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                System.out.println("Android: Fetching lobbies.");
-
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String key = ds.getKey();
-                    Boolean value = ds.getValue(Boolean.class);
-                    lobbies.put(key, value);
-                }
-                isLoading.set(0, false);
-                System.out.println("Lobbies: " + lobbies);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //  Handle errors
-                System.out.println("Android: Error while fetching lobbies.");
-            }
-        });
-    }
-    @Override
-    public void getLobbyStatus(String lobby) {
-        myRef.setValue("NewLobby");
-    }
-    @Override
-    public void getOpponentDisplayName(String lobby) {
-        myRef.setValue("NewLobby");
-    }
-    @Override
-    public void getOpponentPosition(String lobby) {
-        myRef.setValue("NewLobby");
-    }
-
-
-
-
 
 }
