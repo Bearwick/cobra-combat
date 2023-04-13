@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.states.GameMenuState;
 import com.mygdx.game.states.GameStateManager;
 
+import java.util.ArrayList;
+
 public class MyGdxGame extends ApplicationAdapter {
 
 	public static final int WIDTH = 3120;
@@ -22,8 +24,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	private GameStateManager gsm;
+
 	private SpriteBatch batch;
 	public static API API;
+	
 
 
 	public MyGdxGame(API firebaseAPI) {

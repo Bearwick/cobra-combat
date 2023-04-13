@@ -17,15 +17,19 @@ import java.util.Map;
 public class GameLobbyState extends State {
 
     private Texture background;
-    private Texture startBtn;
+    private Texture playBtn;
+    private Texture changeNameBtn;
     private Vector3 touchPos;
     private ArrayList<Boolean> isLoading;
 
+    
+    
     private boolean hasGamelobby = false;
     private String GameLobbyRef;
     private Map<String, Boolean> lobbies;
     private boolean playerReady = false;
     private static int playBtnOffset =50;
+    private static int changeNameBtnOffset =-370;
     private String playerName = "";
     BitmapFont userName;
     MyTextInputListener listener = new MyTextInputListener();
@@ -36,14 +40,16 @@ public class GameLobbyState extends State {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
-        startBtn = new Texture("play.png");
+        playBtn = new Texture("play.png");
+        changeNameBtn = new Texture("changeNameBtn.png");
+
         touchPos = new Vector3();
         this.userName = new BitmapFont();
-        this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/15, MyGdxGame.GRID_CELL_Y/15);
+        this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
         lobbies = new HashMap<>();
         isLoading = new ArrayList<Boolean>();
-        isLoading.set(0, true);
-        isLoading.set(1, false);
+        isLoading.add(0, true);
+        isLoading.add(1, false);
 
     }
 
@@ -63,27 +69,7 @@ public class GameLobbyState extends State {
 
 
 
-    @Override
-    protected void handleInput() {
-        if (Gdx.input.justTouched()) {
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touchPos); // calibrates the input to your camera's dimensions
 
-            if (touchPos.x > (cam.position.x - (startBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (startBtn.getWidth() / 2)) && touchPos.y > (cam.position.y + playBtnOffset + 100) && touchPos.y < (cam.position.y + playBtnOffset + 100 + startBtn.getHeight())) {
-                    Gdx.input.getTextInput(listener, "Display name", "", "E.g. Bit snake");
-                System.out.println("text");
-            }
-
-
-            else if (touchPos.x > (cam.position.x - (startBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (startBtn.getWidth() / 2))) {
-                if (touchPos.y > (cam.position.y + playBtnOffset) && touchPos.y < (cam.position.y + startBtn.getHeight())) {
-                    playerReady = true;
-                    System.out.println("1");
-                }
-            }
-
-        }
-    }
 
     public void createGameSession() {
         if (playerReady && !hasGamelobby) {
@@ -138,6 +124,30 @@ public class GameLobbyState extends State {
     }
 
     @Override
+    protected void handleInput() {
+        if (Gdx.input.justTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touchPos); // calibrates the input to your camera's dimensions
+
+            if (touchPos.x > (cam.position.x - (changeNameBtn.getWidth() / 2)) && touchPos.x < (cam.position.x+(changeNameBtn.getWidth() / 2))) {
+                if(touchPos.y > (cam.position.y + changeNameBtnOffset) && touchPos.y < (cam.position.y + changeNameBtn.getHeight() + changeNameBtnOffset)) {
+                    Gdx.input.getTextInput(listener, "Display name", "", "E.g. Bit snake");
+                    System.out.println("text");
+                }
+            }
+
+
+            if (touchPos.x > (cam.position.x - (playBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (playBtn.getWidth() / 2))) {
+                if (touchPos.y > (cam.position.y - (playBtn.getHeight() / 2)) && touchPos.y < (cam.position.y + (playBtn.getHeight() / 2))) {
+                    playerReady = true;
+                    System.out.println("1");
+                    gsm.set(new GamePlayState(gsm));
+                }
+            }
+
+        }
+    }
+    @Override
     public void update(float dt) {
         handleInput();
         createGameSession();
@@ -148,15 +158,16 @@ public class GameLobbyState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0, 0);
-        sb.draw(startBtn, cam.position.x - (startBtn.getWidth() / 2), cam.position.y - (startBtn.getHeight() / 2));
-        this.userName.draw(sb, "Display name: " + playerName, cam.position.x - (startBtn.getWidth()/2), cam.position.y  + 300);
+        sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight() / 2));
+        sb.draw(changeNameBtn, cam.position.x - (changeNameBtn.getWidth() / 2), cam.position.y +changeNameBtnOffset);
+        this.userName.draw(sb, "Player name: " + playerName, cam.position.x -userName.getRegion().getRegionWidth()- playerName.length()*(userName.getRegion().getRegionWidth()/6)-70 , cam.position.y  + (playBtn.getHeight()) + userName.getRegion().getRegionHeight());
         sb.end();
     }
 
     @Override
     public void dispose() {
         background.dispose();
-        startBtn.dispose();
+        playBtn.dispose();
         userName.dispose();
     }
 }
