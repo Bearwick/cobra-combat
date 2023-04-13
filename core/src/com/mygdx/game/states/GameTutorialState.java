@@ -16,6 +16,7 @@ public class GameTutorialState extends State{
     private Texture tut3;
     private Texture tut4;
     private static int tutOffset = -650;
+    private static int arrowOffset = 1200;
     private static int page;
     private Texture left;
     private Texture right;
@@ -35,8 +36,21 @@ public class GameTutorialState extends State{
 
     @Override
     protected void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            page += 1;
+
+        if (Gdx.input.justTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touchPos);
+
+            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset- right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
+                if (touchPos.y > cam.position.y && touchPos.y < cam.position.y + right.getHeight()) {
+                    System.out.println("Go right");
+                        page += 1;
+                }
+            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-left.getWidth()))
+                if (touchPos.y > cam.position.y && touchPos.y < cam.position.y + left.getHeight()) {
+                    System.out.println("Go left");
+                        page -= 1;
+                }
         }
     }
 
@@ -50,8 +64,8 @@ public class GameTutorialState extends State{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
-        sb.draw(right, cam.position.x + 1100, cam.position.y);
-        sb.draw(left, cam.position.x - 1200, cam.position.y);
+        sb.draw(right, cam.position.x + arrowOffset, cam.position.y);
+        sb.draw(left, cam.position.x - arrowOffset, cam.position.y);
         if (page == 1) {
             sb.draw(tut1, cam.position.x - (tut1.getWidth() / 2), cam.position.y + tutOffset);
         } else if (page == 2) {

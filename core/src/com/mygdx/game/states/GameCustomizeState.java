@@ -51,7 +51,7 @@ public class GameCustomizeState extends State{
                 if (touchPos.y > cam.position.y + chooseBtnOffset && touchPos.y < cam.position.y + chooseBtnOffset + chooseBtn.getHeight()) {
                     gsm.set(new GameMenuState(gsm));
                 }
-            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-50))
+            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-left.getWidth()))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + left.getHeight()) {
                     System.out.println("Go left");
                     if (snakeNumber == 2) {
@@ -59,7 +59,7 @@ public class GameCustomizeState extends State{
                     else {
                         snakeNumber = 2; }
                 }
-            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset-50)) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
+            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset- right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + right.getHeight()) {
                     System.out.println("Go right");
                     if (snakeNumber == 2) {
