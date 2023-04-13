@@ -23,7 +23,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
-	private API API;
+	public static API API;
+
 
 	public MyGdxGame(API firebaseAPI) {
 		this.API = firebaseAPI;

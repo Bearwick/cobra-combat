@@ -41,7 +41,7 @@ public class GameMenuState extends State{
             //If PLAY button is clicked:
             if(touchPos.x > (cam.position.x - (playBtn.getWidth()/2)) && touchPos.x < (cam.position.x + (playBtn.getWidth()/2)))
                 if (touchPos.y >(cam.position.y+playBtnOffset) && touchPos.y < (cam.position.y+playBtnOffset+playBtn.getHeight())){
-                    gsm.set(new GamePlayState(gsm));
+                    gsm.set(new GameLobbyState(gsm));
                 }
             //if CUSTOMIZE button is clicked:
             if(touchPos.x > (MyGdxGame.WIDTH/2 - (customizeBtn.getWidth()/2)) && touchPos.x < MyGdxGame.WIDTH/2 + (customizeBtn.getWidth()/2))
@@ -54,7 +54,7 @@ public class GameMenuState extends State{
                     gsm.set(new GameTutorialState(gsm));
                 }
         }
-    }
+  }
 
     @Override
     public void update(float dt) {
