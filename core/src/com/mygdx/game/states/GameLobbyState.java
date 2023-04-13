@@ -42,11 +42,13 @@ public class GameLobbyState extends State {
         background = new Texture("dirt.jpg");
         playBtn = new Texture("play.png");
         changeNameBtn = new Texture("changeNameBtn.png");
-
         touchPos = new Vector3();
+
         this.userName = new BitmapFont();
         this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
+
         lobbies = new HashMap<>();
+
         isLoading = new ArrayList<Boolean>();
         isLoading.add(0, true);
         isLoading.add(1, false);
@@ -129,14 +131,14 @@ public class GameLobbyState extends State {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touchPos); // calibrates the input to your camera's dimensions
 
+            //Change name button
             if (touchPos.x > (cam.position.x - (changeNameBtn.getWidth() / 2)) && touchPos.x < (cam.position.x+(changeNameBtn.getWidth() / 2))) {
                 if(touchPos.y > (cam.position.y + changeNameBtnOffset) && touchPos.y < (cam.position.y + changeNameBtn.getHeight() + changeNameBtnOffset)) {
                     Gdx.input.getTextInput(listener, "Display name", "", "E.g. Bit snake");
                     System.out.println("text");
                 }
             }
-
-
+            //Start game button
             if (touchPos.x > (cam.position.x - (playBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (playBtn.getWidth() / 2))) {
                 if (touchPos.y > (cam.position.y - (playBtn.getHeight() / 2)) && touchPos.y < (cam.position.y + (playBtn.getHeight() / 2))) {
                     playerReady = true;
@@ -144,7 +146,6 @@ public class GameLobbyState extends State {
                     gsm.set(new GamePlayState(gsm));
                 }
             }
-
         }
     }
     @Override
