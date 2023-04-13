@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.Edible;
@@ -18,6 +19,11 @@ public class GamePlayState extends State {
     private Texture background;
     private ShapeRenderer shapeRenderer;
     private PlayerSnake player;
+    private Texture leftBtn;
+    private Texture rightBtn;
+
+
+    private Vector3 touchPos;
     private float deltaTime;
     float deltaTime2;
     EdibleFactory edibleFactory;
@@ -33,9 +39,7 @@ public class GamePlayState extends State {
             edibleFactory.getEdible("APPLE");
         }
         edibleArray = edibleFactory.getEdibleArray();
-
-
-
+        touchPos = new Vector3();
 
         if (GameCustomizeState.getCustomSnake() == 2) {
             player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"));
@@ -47,10 +51,50 @@ public class GamePlayState extends State {
 
     @Override
     protected void handleInput() {
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.setDirection(MyGdxGame.dir_up);
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.setDirection(MyGdxGame.dir_down);
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.setDirection(MyGdxGame.dir_right);
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.setDirection(MyGdxGame.dir_left);
+
+        if (Gdx.input.justTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touchPos); // calibrates the input to your camera's dimensions
+
+            if (touchPos.x < cam.position.x) {  //Press left side of screen to move 90 degrees counter-clockwise
+                if(player.getDirection() == "up") {
+                    player.setDirection(MyGdxGame.dir_left);
+                }
+                else if (player.getDirection() == "right"){
+                    player.setDirection(MyGdxGame.dir_up);
+                }
+                else if (player.getDirection() == "down"){
+                    player.setDirection(MyGdxGame.dir_right);
+                }
+                else if(player.getDirection() == "left"){
+                    player.setDirection(MyGdxGame.dir_down);
+                }
+
+            }
+
+            if (touchPos.x > cam.position.x) { //Press right side of screen to move 90 degrees clock-wise
+                if(player.getDirection() == "up") {
+                    player.setDirection(MyGdxGame.dir_right);
+                }
+                else if (player.getDirection() == "right"){
+                    player.setDirection(MyGdxGame.dir_down);
+                }
+                else if (player.getDirection() == "down"){
+                    player.setDirection(MyGdxGame.dir_left);
+                }
+
+                else if(player.getDirection() == "left"){
+                    player.setDirection(MyGdxGame.dir_up);
+                }
+            }
+        }
+
+        //Remember to remove this before delivery!! This is only for desktop testing!
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.setDirection(MyGdxGame.dir_up);
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.setDirection(MyGdxGame.dir_down);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.setDirection(MyGdxGame.dir_right);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.setDirection(MyGdxGame.dir_left);
+
     }
 
     @Override

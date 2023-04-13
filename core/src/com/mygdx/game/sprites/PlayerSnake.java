@@ -122,4 +122,8 @@ public class PlayerSnake extends Snake {
             playerData.changePosition(i, this.getBody().get(i).getPosition());
         }
     }
+
+    public String getDirection(){
+        return direction;
+    }
 }
