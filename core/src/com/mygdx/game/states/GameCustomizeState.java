@@ -16,6 +16,8 @@ public class GameCustomizeState extends State{
     private Texture snake1;
     private Texture snake2;
     private static int snakePlacement = 50;
+    private Texture left;
+    private Texture right;
 
     private static int snakeNumber;
 
@@ -28,6 +30,8 @@ public class GameCustomizeState extends State{
         touchPos = new Vector3();
         snake1 = new Texture("snakehead.png");
         snake2 = new Texture(("snakehead2.png"));
+        left = new Texture("leftArrow.png");
+        right = new Texture("rightArrow.png");
         snakeNumber = 1;
     }
 
@@ -86,6 +90,8 @@ public class GameCustomizeState extends State{
         else {
             sb.draw(snake2, cam.position.x - (snake2.getWidth() / 2), cam.position.y + snakePlacement);
         }
+        sb.draw(right, cam.position.x + 1000, cam.position.y + snakePlacement);
+        sb.draw(left, cam.position.x - 1000, cam.position.y + snakePlacement);
         sb.end();
 
     }
@@ -96,5 +102,7 @@ public class GameCustomizeState extends State{
         chooseBtn.dispose();
         snake1.dispose();
         snake2.dispose();
+        left.dispose();
+        right.dispose();
     }
 }
