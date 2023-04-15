@@ -104,7 +104,7 @@ public class PlayerSnake extends Snake {
      */
     public void setPlayerData() {
         playerData = new PlayerData();
-        playerData.setNickName("[INSERT NICKNAME HERE]");
+        playerData.setNickName("INSERT NICKNAME HERE");
         // Adds the entries for the body segments into the positions list
         // For updating said positions, use
         playerData.addPosition(this.getHeadPosition());

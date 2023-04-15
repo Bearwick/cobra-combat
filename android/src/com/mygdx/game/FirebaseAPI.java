@@ -36,7 +36,7 @@ public class FirebaseAPI implements API {
 
     @Override
     public void sendPos(PlayerData data) {
-        myRef.setValue(data);
+        myRef.child(data.getNickName()).setValue(data);
     }
 
 
