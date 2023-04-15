@@ -45,7 +45,7 @@ public class GameLobbyState extends State {
         this.userName = new BitmapFont();
         this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
 
-        this.lobbyData = new LobbyData("noname", "none");
+        this.lobbyData = new LobbyData("none", "none");
         this.lobbyName = "newLobby";
     }
 
@@ -65,22 +65,25 @@ public class GameLobbyState extends State {
 
     public void findGameSession() {
         joinGameLobby();
-        createGameLobby();
+        //createGameLobby();
 
 
     }
-    private void findOpenGameLobby() {
-        API.FindLobby();
-        }
     private void joinGameLobby() {
-        if (API.joinLobby(lobbyName)){
+        System.out.println("GameLobbyState: Attempting to join lobby... ");
+        if (playerName=="")
+            lobbyData.setPlayer2("Player2");
+        if (API.joinLobby(this.playerName)){
             gsm.set(new GamePlayState(gsm, false));
         }
-
-
     }
     private void createGameLobby() {
         System.out.println("GameLobbyState: Creating new lobby ");
+
+        if (playerName==""){
+            lobbyData.setPlayer1("Player1");
+        }
+
         API.createNewLobby(lobbyName, lobbyData);
         gsm.set(new WaitingForPlayersState(gsm, lobbyName));
     }

@@ -25,7 +25,7 @@ public class DesktopAPI implements API {
 
 	}
 	@Override
-	public Boolean joinLobby(String lobby) {
+	public Boolean joinLobby() {
 		return true;
 	}
 	@Override

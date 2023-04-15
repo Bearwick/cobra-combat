@@ -22,7 +22,8 @@ public class FirebaseAPI implements API {
     private DatabaseReference lobbyRef;
     private DatabaseReference myRef;
     private Map<String, Boolean> map;
-    Boolean newPlayerHasJoinedLobby = false;
+    private Boolean newPlayerHasJoinedLobby = false;
+    private Boolean joinedGame = false;
 
     public FirebaseAPI() {
         this.rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -58,9 +59,7 @@ public class FirebaseAPI implements API {
 
     @Override
     public boolean checkForNewPlayers(String lobbyName) {
-        lobbyRef.child(lobbyName);
-
-        lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        lobbyRef.child(lobbyName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 String lobbyState = task.getResult().getValue().toString();
@@ -74,16 +73,33 @@ public class FirebaseAPI implements API {
     }
 
     @Override
-    public void joinLobby(String lobby) {
+    public Boolean joinLobby(String playerName) {
+        System.out.println("yoyo4");
+        lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                for (DataSnapshot ds : task.getResult().getChildren()){
+                    LobbyData data = ds.getValue(LobbyData.class);
+                    if(data.getPlayer2().equals("none")){
+                        data.setPlayer2(playerName);
+                        DatabaseReference gameref = lobbyRef.child(ds.getKey());
+                        gameref.setValue(data);
+                        joinedGame=true;
+                        break;
+                    }
 
+                }
+            }
+        });
+        return joinedGame;
     }
     @Override
     public void getMessage(ArrayList<String> messages) {
-        //This never runs, i do not know wether it works.
+        //This never runs,
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                System.out.println("Android: fetch message");
+                System.out.println("Android: fetch massaaaage");
                 String res = task.getResult().getValue().toString();
                 messages.add(res);
                 System.out.println(task);
