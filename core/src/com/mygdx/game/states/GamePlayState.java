@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.Edible;
 import com.mygdx.game.sprites.EdibleFactory;
@@ -30,28 +31,38 @@ public class GamePlayState extends State {
     EdibleFactory edibleFactory;
     ArrayList<Edible> edibleArray;
 
-    protected GamePlayState(GameStateManager gsm, Boolean isPlayer1) {
+    private LobbyData lobbyData;
+    private String playerName;
+    protected GamePlayState(GameStateManager gsm, Boolean isPlayer1, LobbyData lobbyData) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
-        shapeRenderer = new ShapeRenderer();
+        //shapeRenderer = new ShapeRenderer();
         edibleFactory = new EdibleFactory();
+        this.lobbyData = lobbyData;
         for (int i=0; i<5; i++){
             edibleFactory.getEdible("APPLE");
         }
         edibleArray = edibleFactory.getEdibleArray();
         touchPos = new Vector3();
 
-        if (isPlayer1)
+        if (isPlayer1){
             startingPosition = new Vector2(0,0);
-        else startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
-
-        if (GameCustomizeState.getCustomSnake() == 2) {
-            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition);
+            playerName = lobbyData.getPlayer1();
         }
         else {
-            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition);
+            startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
+            playerName = lobbyData.getPlayer2();
         }
+
+        if (GameCustomizeState.getCustomSnake() == 2) {
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition, playerName);
+        }
+        else {
+            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition, playerName);
+        }
+
+
     }
 
     @Override

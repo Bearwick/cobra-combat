@@ -12,11 +12,11 @@ public class PlayerSnake extends Snake {
 
     public Vector2 lastTailPosition;
     private PlayerData playerData;
-    public PlayerSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition) {
+    public PlayerSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition, String nickName) {
         super(headTexture, bodyTexture, startingPosition);
         direction = MyGdxGame.dir_up;
         // Creates object for player data such as position. Used for Firebase.
-        setPlayerData();
+        setPlayerData(nickName);
     }
     @Override
     public void move() {
@@ -102,9 +102,9 @@ public class PlayerSnake extends Snake {
      *  - the positions of every segment of the snake-object
      *  For updating the positions of the segments, use `updatePositionalData`
      */
-    public void setPlayerData() {
+    public void setPlayerData(String nickname) {
         playerData = new PlayerData();
-        playerData.setNickName("INSERT NICKNAME HERE");
+        playerData.setNickName(nickname);
         // Adds the entries for the body segments into the positions list
         // For updating said positions, use
         playerData.addPosition(this.getHeadPosition());

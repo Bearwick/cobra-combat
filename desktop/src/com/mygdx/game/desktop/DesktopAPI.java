@@ -4,6 +4,7 @@ package com.mygdx.game.desktop;
 import com.mygdx.game.API;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
+import com.mygdx.game.lobbyDataCallback;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,28 +22,35 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void createNewLobby(String lobbyName, LobbyData data) {
+	public void createNewLobby(String lobbyName, String playerName) {
 
 	}
+
 	@Override
-	public Boolean joinLobby() {
-		return true;
+	public void joinLobby(String name) {
+
 	}
+
+
 	@Override
 	public void deleteLobby(String lobby) {
 
 	}
+
 	@Override
-	public boolean checkForNewPlayers(String lobby) {
-		return true;
+	public void checkForNewPlayers(String lobby) {
+
 	}
 
 	@Override
-	public void FindLobby() {
+	public void FindLobby(String playerName) {
 
 	}
 
+	@Override
+	public void setApiCallback(lobbyDataCallback getLobbyData) {
 
+	}
 
 
 }

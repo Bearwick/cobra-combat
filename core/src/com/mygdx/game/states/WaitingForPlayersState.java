@@ -4,13 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.lobbyDataCallback;
+
 import static com.mygdx.game.MyGdxGame.API;
 
-public class WaitingForPlayersState extends State{
+import java.util.concurrent.Callable;
+
+public class WaitingForPlayersState extends State implements lobbyDataCallback {
     private Texture background;
     BitmapFont waitingMessage;
     private float deltaTime;
     private String lobbyName;
+    private LobbyData lobbyData;
     protected WaitingForPlayersState(GameStateManager gsm, String lobbyName) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
@@ -18,6 +24,8 @@ public class WaitingForPlayersState extends State{
         waitingMessage = new BitmapFont();
         waitingMessage.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
         this.lobbyName = lobbyName;
+        lobbyData= new LobbyData();
+        API.setApiCallback(this);
     }
 
     @Override
@@ -30,12 +38,20 @@ public class WaitingForPlayersState extends State{
         deltaTime += dt;
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
-
-            // True when another player joins the game!
-            if(API.checkForNewPlayers(lobbyName)){
-                gsm.set(new GamePlayState(gsm, true));
-            }
+            API.checkForNewPlayers(lobbyName);
         }
+    }
+    @Override
+    public void joinGameCallback(LobbyData lobbyData) {
+        System.out.println("Waiting for player - Join Game Callback: Attempting to join lobby... ");
+
+        gsm.set(new GamePlayState(gsm, true, lobbyData));
+
+    }
+
+    @Override
+    public void createGameCallback() {
+        System.out.println("The fact that this method is called is a huge wierd bug.");
     }
 
     @Override

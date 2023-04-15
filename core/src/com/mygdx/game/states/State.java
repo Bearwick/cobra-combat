@@ -3,6 +3,7 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.lobbyDataCallback;
 
 public abstract class State {
     protected GameStateManager gsm;

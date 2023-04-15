@@ -12,12 +12,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
+import com.mygdx.game.lobbyDataCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameLobbyState extends State {
+public class GameLobbyState extends State implements lobbyDataCallback {
 
     private Texture background;
     private Texture playBtn;
@@ -45,10 +46,10 @@ public class GameLobbyState extends State {
         this.userName = new BitmapFont();
         this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
 
-        this.lobbyData = new LobbyData("none", "none");
+        this.lobbyData = new LobbyData();
         this.lobbyName = "newLobby";
+        API.setApiCallback(this);
     }
-
 
 
     public class MyTextInputListener implements Input.TextInputListener {
@@ -62,18 +63,18 @@ public class GameLobbyState extends State {
         }
     }
 
-    private void joinGameLobby() {
-        System.out.println("GameLobbyState: Attempting to join lobby... ");
-
-        if (API.joinLobby(this.playerName)){
-            gsm.set(new GamePlayState(gsm, false));
-        }
-        else createGameLobby();
+    private void joinGameLobby(){
+        API.FindLobby(playerName);
     }
-    private void createGameLobby() {
-        System.out.println("GameLobbyState: Creating new lobby ");
-        lobbyData.setPlayer1(playerName);
-        API.createNewLobby(lobbyName, lobbyData);
+    @Override
+    public void joinGameCallback(LobbyData lobbyData) {
+        System.out.println("Join Game Callback: Attempting to join lobby... ");
+
+        gsm.set(new GamePlayState(gsm, false, lobbyData));
+    }
+    @Override
+    public void createGameCallback() {
+        System.out.println("Create Game Callback:: Creating new lobby ");
         gsm.set(new WaitingForPlayersState(gsm, lobbyName));
     }
 

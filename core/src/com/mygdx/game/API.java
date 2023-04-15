@@ -11,14 +11,14 @@ public interface API {
     void getMessage(ArrayList<String> messages);
 
     //  ---------- Setters Game Lobby ----------
-    void createNewLobby(String lobbyName, LobbyData data);
+    void createNewLobby(String lobbyName, String playerName);
 
-    Boolean joinLobby(String name);
+    void joinLobby(String name);
     void deleteLobby(String lobby);
 
-    boolean checkForNewPlayers(String lobby);
+    void checkForNewPlayers(String lobby);
 
     //  ---------- Getters Game Lobby ----------
-    void FindLobby();
-
+    void FindLobby(String playerName);
+    void setApiCallback(lobbyDataCallback getLobbyData);
 }
