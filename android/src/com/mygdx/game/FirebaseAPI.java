@@ -62,10 +62,9 @@ public class FirebaseAPI implements API {
         lobbyRef.child(lobbyName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                String lobbyState = task.getResult().getValue().toString();
-                System.out.println(lobbyState);
-                System.out.println(!lobbyState.contains("player2=none"));
-                newPlayerHasJoinedLobby = !lobbyState.contains("player2=none}}");
+                LobbyData lobbyData = task.getResult().getValue(LobbyData.class);
+
+                newPlayerHasJoinedLobby = !lobbyData.getPlayer2().equals("none");
             }
         });
 

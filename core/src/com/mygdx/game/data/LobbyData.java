@@ -13,7 +13,7 @@ public class LobbyData {
     public LobbyData() {
     }
     public void setPlayer1(String player1) {
-        if(player1.equals("")||player1.equals("none"))
+        if(player1.equals(""))
             this.player1="Player1";
         else
             this.player1 = player1;

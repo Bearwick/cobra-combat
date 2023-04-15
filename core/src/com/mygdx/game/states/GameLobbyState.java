@@ -55,7 +55,6 @@ public class GameLobbyState extends State {
         @Override
         public void input (String text) {
             playerName = text;
-            lobbyData.setPlayer1(text);
         }
 
         @Override
@@ -63,27 +62,17 @@ public class GameLobbyState extends State {
         }
     }
 
-    public void findGameSession() {
-        joinGameLobby();
-        //createGameLobby();
-
-
-    }
     private void joinGameLobby() {
         System.out.println("GameLobbyState: Attempting to join lobby... ");
-        if (playerName=="")
-            lobbyData.setPlayer2("Player2");
+
         if (API.joinLobby(this.playerName)){
             gsm.set(new GamePlayState(gsm, false));
         }
+        else createGameLobby();
     }
     private void createGameLobby() {
         System.out.println("GameLobbyState: Creating new lobby ");
-
-        if (playerName==""){
-            lobbyData.setPlayer1("Player1");
-        }
-
+        lobbyData.setPlayer1(playerName);
         API.createNewLobby(lobbyName, lobbyData);
         gsm.set(new WaitingForPlayersState(gsm, lobbyName));
     }
@@ -103,7 +92,7 @@ public class GameLobbyState extends State {
             //Start game button
             if (touchPos.x > (cam.position.x - (playBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (playBtn.getWidth() / 2))) {
                 if (touchPos.y > (cam.position.y - (playBtn.getHeight() / 2)) && touchPos.y < (cam.position.y + (playBtn.getHeight() / 2))) {
-                    findGameSession();
+                    joinGameLobby();
                 }
             }
         }
