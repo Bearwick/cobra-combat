@@ -99,8 +99,11 @@ public class FirebaseAPI implements API {
                             apiCallback.joinGameCallback(lobbyData);
                             break;
                         }
-                        else createNewLobby("newLobby", playerName);
                     }
+                    if(!lobbyData.getPlayer2().equals("none"))
+                        createNewLobby("newLobby", playerName);
+                    else if (lobbyData.getPlayer1().equals("none"))
+                        createNewLobby("newLobby", playerName);
                 }
             });
         }

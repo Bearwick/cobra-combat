@@ -1,5 +1,7 @@
 package com.mygdx.game.states;
 
+import static com.mygdx.game.MyGdxGame.API;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.sprites.BodyPart;
@@ -122,7 +125,7 @@ public class GamePlayState extends State {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
 
             player.move();
-            this.gsm.getApi().sendPos(player.getPlayerData());
+            API.sendPos(player.getPlayerData());
         }
         if (player.hasEaten(edibleArray)) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;

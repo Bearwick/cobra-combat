@@ -118,7 +118,7 @@ public class PlayerSnake extends Snake {
      */
     public void updatePositionalData() {
         playerData.changePosition(0, this.getHeadPosition());
-        for (int i=0; i<this.getBody().size-1; i++) {
+        for (int i=1; i<this.getBody().size-1; i++) {
             playerData.changePosition(i, this.getBody().get(i).getPosition());
         }
     }

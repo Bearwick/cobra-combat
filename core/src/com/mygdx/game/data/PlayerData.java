@@ -45,6 +45,7 @@ public class PlayerData {
         this.position.add(pos);
     }
     public void changePosition(int index, Vector2 pos) {
+
         position.set(index, pos);
     }
 }
