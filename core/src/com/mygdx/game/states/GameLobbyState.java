@@ -85,6 +85,7 @@ public class GameLobbyState extends State implements lobbyDataCallback {
 
     }
 
+
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {

@@ -20,17 +20,20 @@ public class FirebaseAPI implements API {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseDatabase rtdm;
     private DatabaseReference lobbyRef;
-    private DatabaseReference myRef;
+    private DatabaseReference gameRef;
     private Boolean gameJoined;
     private Boolean gameCreated;
     private LobbyData lobbyData;
     public lobbyDataCallback apiCallback;
+    public oponentDataCallback oponentCallback;
+    PlayerData opponentData;
     public FirebaseAPI() {
         this.rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
 
         this.lobbyRef = rtdm.getReference("Lobbies");
-        this.myRef = rtdm.getReference("PlayerData");
+        this.gameRef = rtdm.getReference("PlayerData");
         lobbyData = new LobbyData();
+        opponentData = new PlayerData();
         gameCreated=false;
         gameJoined=false;
 
@@ -39,7 +42,7 @@ public class FirebaseAPI implements API {
 
     @Override
     public void sendPos(PlayerData data) {
-        myRef.child(data.getNickName()).setValue(data);
+        gameRef.child(data.getNickName()).setValue(data);
     }
 
 
@@ -76,6 +79,7 @@ public class FirebaseAPI implements API {
                     if (!lobbyData.getPlayer2().equals("none")){
                         gameJoined=true;
                         apiCallback.joinGameCallback(lobbyData);
+
                     }
                 }
             });
@@ -112,7 +116,7 @@ public class FirebaseAPI implements API {
     @Override
     public void getMessage(ArrayList<String> messages) {
         //This never runs,
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 System.out.println("Android: fetch massaaaage");
@@ -124,15 +128,30 @@ public class FirebaseAPI implements API {
 
     }
 
+    @Override
+    public void getOponentData(String oponentName) {
+        gameRef.child(oponentName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                System.out.println("Get Oponent Data: ");
+                opponentData = task.getResult().getValue(PlayerData.class);
+                oponentCallback.setOponentData(opponentData);
+
+            }
+        });
+    }
+    @Override
     public void resetJoinGameBooleans(){
         this.gameJoined = false;
         this.gameCreated = false;
     }
-
+    @Override
     public void setApiCallback(lobbyDataCallback apiCallback) {
         this.apiCallback = apiCallback;
     }
-
-
+    @Override
+    public void setGameCallback(oponentDataCallback oponentCallback) {
+        this.oponentCallback = oponentCallback;
+    }
 }
 

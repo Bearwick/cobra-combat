@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
+import com.mygdx.game.data.PlayerData;
+import com.mygdx.game.oponentDataCallback;
 import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.Edible;
 import com.mygdx.game.sprites.EdibleFactory;
@@ -20,7 +22,7 @@ import com.mygdx.game.sprites.PlayerSnake;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GamePlayState extends State {
+public class GamePlayState extends State implements oponentDataCallback {
     private Texture background;
     private ShapeRenderer shapeRenderer;
     private PlayerSnake player;
@@ -30,12 +32,15 @@ public class GamePlayState extends State {
 
     private Vector3 touchPos;
     private float deltaTime;
-    float deltaTime2;
+    private float deltaTime2;
+    private float deltaTime3;
     EdibleFactory edibleFactory;
     ArrayList<Edible> edibleArray;
 
     private LobbyData lobbyData;
+    private PlayerData oponentData;
     private String playerName;
+    private String oponentName;
     protected GamePlayState(GameStateManager gsm, Boolean isPlayer1, LobbyData lobbyData) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
@@ -48,14 +53,17 @@ public class GamePlayState extends State {
         }
         edibleArray = edibleFactory.getEdibleArray();
         touchPos = new Vector3();
+        oponentData = new PlayerData();
 
         if (isPlayer1){
             startingPosition = new Vector2(0,0);
             playerName = lobbyData.getPlayer1();
+            oponentName = lobbyData.getPlayer2();
         }
         else {
             startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
             playerName = lobbyData.getPlayer2();
+            oponentName = lobbyData.getPlayer1();
         }
 
         if (GameCustomizeState.getCustomSnake() == 2) {
@@ -64,7 +72,7 @@ public class GamePlayState extends State {
         else {
             player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition, playerName);
         }
-
+        API.setGameCallback(this);
 
     }
 
@@ -121,6 +129,7 @@ public class GamePlayState extends State {
         handleInput();
         deltaTime += dt;
         deltaTime2 += dt;
+        deltaTime3 += dt;
         if (player.hasEaten(edibleArray)) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
             player.addBodyPart(player.getLastTailPosition());
@@ -128,11 +137,11 @@ public class GamePlayState extends State {
         }
         if (player.collides())
             gsm.set(new GameOverState(gsm));
-
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
             player.move();
             API.sendPos(player.getPlayerData());
+            API.getOponentData(oponentName);
         }
     }
 
@@ -170,6 +179,18 @@ public class GamePlayState extends State {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void setOponentData(PlayerData playerData) {
+        System.out.println("setOponentData : Callback");
+        oponentData = playerData;
+        if(oponentData == null)
+            System.out.println("oponentData is NULL !!");
+        else
+            System.out.println(oponentData);
+
 
     }
 }

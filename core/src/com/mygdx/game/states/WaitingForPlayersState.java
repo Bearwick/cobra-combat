@@ -60,6 +60,7 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
         System.out.println("The fact that this method is called is a huge wierd bug.");
     }
 
+
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);

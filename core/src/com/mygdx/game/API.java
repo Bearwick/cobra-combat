@@ -23,5 +23,8 @@ public interface API {
 
     void resetJoinGameBooleans();
     void setApiCallback(lobbyDataCallback getLobbyData);
+    void setGameCallback(oponentDataCallback getOponentData);
+
+    void getOponentData(String oponentName);
 
 }
