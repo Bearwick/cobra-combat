@@ -33,6 +33,9 @@ public class GameLobbyState extends State implements lobbyDataCallback {
     BitmapFont userName;
     MyTextInputListener listener = new MyTextInputListener();
 
+    private boolean joinGameNow;
+    private boolean createGameNow;
+
 
 
     public GameLobbyState(GameStateManager gsm) {
@@ -42,6 +45,8 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         playBtn = new Texture("play.png");
         changeNameBtn = new Texture("changeNameBtn.png");
         touchPos = new Vector3();
+        joinGameNow=false;
+        createGameNow=false;
 
         this.userName = new BitmapFont();
         this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
@@ -69,13 +74,15 @@ public class GameLobbyState extends State implements lobbyDataCallback {
     @Override
     public void joinGameCallback(LobbyData lobbyData) {
         System.out.println("Join Game Callback: Attempting to join lobby... ");
+        this.lobbyData = lobbyData;
+        joinGameNow = true;
 
-        gsm.set(new GamePlayState(gsm, false, lobbyData));
     }
     @Override
     public void createGameCallback() {
         System.out.println("Create Game Callback:: Creating new lobby ");
-        gsm.set(new WaitingForPlayersState(gsm, lobbyName));
+        createGameNow=true;
+
     }
 
     @Override
@@ -101,6 +108,11 @@ public class GameLobbyState extends State implements lobbyDataCallback {
     @Override
     public void update(float dt) {
         handleInput();
+        if (joinGameNow)
+            gsm.set(new GamePlayState(gsm, false, lobbyData));
+        else if (createGameNow)
+            gsm.set(new WaitingForPlayersState(gsm, lobbyName));
+
     }
 
     @Override

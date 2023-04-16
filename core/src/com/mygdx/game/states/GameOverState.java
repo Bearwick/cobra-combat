@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.API;
 import com.mygdx.game.MyGdxGame;
-
+import static com.mygdx.game.MyGdxGame.API;
 public class GameOverState extends State{
 
     private Texture background;
@@ -22,6 +23,7 @@ public class GameOverState extends State{
         title = new Texture("gameover.png");
         menuBtn = new Texture("menu.png");
         touchPos = new Vector3();
+        API.resetJoinGameBooleans();
     }
 
     @Override

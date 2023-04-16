@@ -21,9 +21,8 @@ public class FirebaseAPI implements API {
     private FirebaseDatabase rtdm;
     private DatabaseReference lobbyRef;
     private DatabaseReference myRef;
-    private Map<String, Boolean> map;
-    private Boolean newPlayerHasJoinedLobby = false;
-    private Boolean joinedGame = false;
+    private Boolean gameJoined;
+    private Boolean gameCreated;
     private LobbyData lobbyData;
     public lobbyDataCallback apiCallback;
     public FirebaseAPI() {
@@ -32,6 +31,9 @@ public class FirebaseAPI implements API {
         this.lobbyRef = rtdm.getReference("Lobbies");
         this.myRef = rtdm.getReference("PlayerData");
         lobbyData = new LobbyData();
+        gameCreated=false;
+        gameJoined=false;
+
         //myRef.child("example").setValue("Kan også2 endre på barna!");
     }
 
@@ -44,18 +46,20 @@ public class FirebaseAPI implements API {
     //  ---------- Setters Game Lobby ----------
     @Override
     public void createNewLobby(String lobbyName, String playerName) {
-        DatabaseReference gameref = lobbyRef.child(lobbyName);
-        LobbyData data = new LobbyData();
-        data.setPlayer1(playerName);
-        gameref.setValue(data);
-        apiCallback.createGameCallback();
+        if(!gameJoined){
+            DatabaseReference gameref = lobbyRef.child(lobbyName);
+            LobbyData data = new LobbyData();
+            data.setPlayer1(playerName);
+            gameref.setValue(data);
+            gameJoined=true;
+            apiCallback.createGameCallback();
+        }
 
     }
     //  ---------- Getters Game Lobby ----------
     @Override
     public void FindLobby(String playerName) {
         joinLobby(playerName);
-        createNewLobby("newLobby", playerName);
     }
     @Override
     public void deleteLobby(String lobby) {
@@ -64,35 +68,42 @@ public class FirebaseAPI implements API {
 
     @Override
     public void checkForNewPlayers(String lobbyName) {
-
-        lobbyRef.child(lobbyName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                lobbyData = task.getResult().getValue(LobbyData.class);
-                if (!lobbyData.getPlayer2().equals("none"))
-                    apiCallback.joinGameCallback(lobbyData);
-            }
-        });
+        if(!gameJoined){
+            lobbyRef.child(lobbyName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    lobbyData = task.getResult().getValue(LobbyData.class);
+                    if (!lobbyData.getPlayer2().equals("none")){
+                        gameJoined=true;
+                        apiCallback.joinGameCallback(lobbyData);
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void joinLobby(String playerName) {
-        lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                for (DataSnapshot ds : task.getResult().getChildren()){
-                    lobbyData = ds.getValue(LobbyData.class);
+        if (!gameJoined){
+            lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    for (DataSnapshot ds : task.getResult().getChildren()){
+                        lobbyData = ds.getValue(LobbyData.class);
 
-                    if(lobbyData.getPlayer2().equals("none") && !lobbyData.getPlayer1().equals("none")){
-                        lobbyData.setPlayer2(playerName);
-                        DatabaseReference gameref = lobbyRef.child(ds.getKey());
-                        gameref.setValue(lobbyData);
-                        apiCallback.joinGameCallback(lobbyData);
-                        break;
+                        if(lobbyData.getPlayer2().equals("none") && !lobbyData.getPlayer1().equals("none")){
+                            lobbyData.setPlayer2(playerName);
+                            DatabaseReference gameref = lobbyRef.child(ds.getKey());
+                            gameref.setValue(lobbyData);
+                            gameJoined=true;
+                            apiCallback.joinGameCallback(lobbyData);
+                            break;
+                        }
+                        else createNewLobby("newLobby", playerName);
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -108,6 +119,11 @@ public class FirebaseAPI implements API {
             }
         });
 
+    }
+
+    public void resetJoinGameBooleans(){
+        this.gameJoined = false;
+        this.gameCreated = false;
     }
 
     public void setApiCallback(lobbyDataCallback apiCallback) {

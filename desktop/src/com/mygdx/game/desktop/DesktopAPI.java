@@ -51,6 +51,10 @@ public class DesktopAPI implements API {
 	public void setApiCallback(lobbyDataCallback getLobbyData) {
 
 	}
+	@Override
+	public void resetJoinGameBooleans(){
+
+	}
 
 
 }

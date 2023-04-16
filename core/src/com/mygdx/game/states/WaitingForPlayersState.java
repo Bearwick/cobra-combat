@@ -17,6 +17,7 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
     private float deltaTime;
     private String lobbyName;
     private LobbyData lobbyData;
+    private boolean joinGameNow;
     protected WaitingForPlayersState(GameStateManager gsm, String lobbyName) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
@@ -26,6 +27,7 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
         this.lobbyName = lobbyName;
         lobbyData= new LobbyData();
         API.setApiCallback(this);
+        joinGameNow=false;
     }
 
     @Override
@@ -39,13 +41,17 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
             API.checkForNewPlayers(lobbyName);
+            API.resetJoinGameBooleans();
         }
+        if (joinGameNow)
+            gsm.set(new GamePlayState(gsm, true, lobbyData));
     }
     @Override
     public void joinGameCallback(LobbyData lobbyData) {
         System.out.println("Waiting for player - Join Game Callback: Attempting to join lobby... ");
+        this.lobbyData = lobbyData;
+        joinGameNow = true;
 
-        gsm.set(new GamePlayState(gsm, true, lobbyData));
 
     }
 
