@@ -121,12 +121,6 @@ public class GamePlayState extends State {
         handleInput();
         deltaTime += dt;
         deltaTime2 += dt;
-        if (deltaTime >= MyGdxGame.GAMESPEED) {
-            deltaTime = deltaTime % MyGdxGame.GAMESPEED;
-
-            player.move();
-            API.sendPos(player.getPlayerData());
-        }
         if (player.hasEaten(edibleArray)) {
             deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
             player.addBodyPart(player.getLastTailPosition());
@@ -134,6 +128,12 @@ public class GamePlayState extends State {
         }
         if (player.collides())
             gsm.set(new GameOverState(gsm));
+
+        if (deltaTime >= MyGdxGame.GAMESPEED) {
+            deltaTime = deltaTime % MyGdxGame.GAMESPEED;
+            player.move();
+            API.sendPos(player.getPlayerData());
+        }
     }
 
     @Override

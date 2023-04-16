@@ -2,6 +2,7 @@ package com.mygdx.game.desktop;
 
 
 import com.mygdx.game.API;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.lobbyDataCallback;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class DesktopAPI implements API {
+	public lobbyDataCallback apiCallback;
 
 	@Override
 	public void sendPos(PlayerData data) {
-		System.out.println("aaaaaa");
+		//System.out.println("x: "+MyGdxGame.GRID_CELL_X+" - y:" + MyGdxGame.GRID_CELL_Y);
+		System.out.println(data.toString());
 	}
 
 	@Override
@@ -44,11 +47,14 @@ public class DesktopAPI implements API {
 
 	@Override
 	public void FindLobby(String playerName) {
-
+		LobbyData lobbyData = new LobbyData();
+		lobbyData.setPlayer1("DesktopPlayer1");
+		apiCallback.joinGameCallback(lobbyData);
 	}
 
 	@Override
-	public void setApiCallback(lobbyDataCallback getLobbyData) {
+	public void setApiCallback(lobbyDataCallback apiCallback) {
+		this.apiCallback = apiCallback;
 
 	}
 	@Override
