@@ -6,6 +6,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.lobbyDataCallback;
+import com.mygdx.game.oponentDataCallback;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -57,6 +58,17 @@ public class DesktopAPI implements API {
 		this.apiCallback = apiCallback;
 
 	}
+
+	@Override
+	public void setGameCallback(oponentDataCallback getOponentData) {
+
+	}
+
+	@Override
+	public void getOponentData(String oponentName) {
+
+	}
+
 	@Override
 	public void resetJoinGameBooleans(){
 

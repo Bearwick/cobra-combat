@@ -17,6 +17,7 @@ import com.mygdx.game.oponentDataCallback;
 import com.mygdx.game.sprites.BodyPart;
 import com.mygdx.game.sprites.Edible;
 import com.mygdx.game.sprites.EdibleFactory;
+import com.mygdx.game.sprites.OpponentSnake;
 import com.mygdx.game.sprites.PlayerSnake;
 
 import java.util.ArrayList;
@@ -26,9 +27,11 @@ public class GamePlayState extends State implements oponentDataCallback {
     private Texture background;
     private ShapeRenderer shapeRenderer;
     private PlayerSnake player;
+    private OpponentSnake opponent;
     private Texture leftBtn;
     private Texture rightBtn;
     private Vector2 startingPosition;
+    private Vector2 oponentStartingPosition;
 
     private Vector3 touchPos;
     private float deltaTime;
@@ -57,20 +60,24 @@ public class GamePlayState extends State implements oponentDataCallback {
 
         if (isPlayer1){
             startingPosition = new Vector2(0,0);
+            oponentStartingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
             playerName = lobbyData.getPlayer1();
             oponentName = lobbyData.getPlayer2();
         }
         else {
             startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
+            oponentStartingPosition = new Vector2(0,0);
             playerName = lobbyData.getPlayer2();
             oponentName = lobbyData.getPlayer1();
         }
 
         if (GameCustomizeState.getCustomSnake() == 2) {
             player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),oponentStartingPosition, oponentName);
         }
         else {
             player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),oponentStartingPosition, oponentName);
         }
         API.setGameCallback(this);
 
@@ -150,6 +157,7 @@ public class GamePlayState extends State implements oponentDataCallback {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0,0);
+
         for (Edible e: edibleArray){
             e.getBody().draw(sb);
         }
@@ -158,6 +166,10 @@ public class GamePlayState extends State implements oponentDataCallback {
             bodypart.getSprite().draw(sb);
         }
         player.getHead().draw(sb);
+
+        for (BodyPart bodyPart: opponent.getBody())
+            bodyPart.getSprite().draw(sb);
+        opponent.getHead().draw(sb);
 
         sb.end();
         //drawGrid();
@@ -183,13 +195,15 @@ public class GamePlayState extends State implements oponentDataCallback {
     }
 
     @Override
-    public void setOponentData(PlayerData playerData) {
+    public void setOponentData(PlayerData opponentData) {
         System.out.println("setOponentData : Callback");
-        oponentData = playerData;
+        oponentData = opponentData;
         if(oponentData == null)
             System.out.println("oponentData is NULL !!");
-        else
+        else {
             System.out.println(oponentData);
+            opponent.setOpponentData(opponentData);
+        }
 
 
     }
