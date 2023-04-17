@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GamePlayState extends State implements oponentDataCallback {
+    private String scoreBoard;
     private Texture background;
     private ShapeRenderer shapeRenderer;
     private PlayerSnake player;
@@ -44,10 +46,12 @@ public class GamePlayState extends State implements oponentDataCallback {
     private PlayerData oponentData;
     private String playerName;
     private String oponentName;
+    private BitmapFont map;
     protected GamePlayState(GameStateManager gsm, Boolean isPlayer1, LobbyData lobbyData) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
+        map = new BitmapFont();
         //shapeRenderer = new ShapeRenderer();
         edibleFactory = new EdibleFactory();
         this.lobbyData = lobbyData;
@@ -141,10 +145,12 @@ public class GamePlayState extends State implements oponentDataCallback {
         deltaTime2 += dt;
         deltaTime3 += dt;
         if (player.hasEaten(edibleArray)) {
+            System.out.println((edibleFactory.getType()));
             if (edibleFactory.getType().equals("APPLE")) {
                 deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
                 player.addBodyPart(player.getLastTailPosition());
                 edibleFactory.getEdible("APPLE");
+                System.out.println(("APPLE EDIBLE WAS EATEN"));
             }
             else { //if type is RAINBOW
                 deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
@@ -152,6 +158,7 @@ public class GamePlayState extends State implements oponentDataCallback {
                     player.addBodyPart(player.getLastTailPosition());
                 }
                 edibleFactory.getEdible("RAINBOW");
+                System.out.println("RAINBOW EDIBLE WAS EATEN");
             }
         }
 
@@ -183,6 +190,10 @@ public class GamePlayState extends State implements oponentDataCallback {
         for (BodyPart bodyPart: opponent.getBody())
             bodyPart.getSprite().draw(sb);
         opponent.getHead().draw(sb);
+
+        scoreBoard = playerName + ": " + player.getLength() + "\n" + oponentName + ": " + opponent.getOpponentLength();
+        map.getData().setScale(5);
+        map.draw(sb, scoreBoard, 100, 1300);
 
         sb.end();
         //drawGrid();
