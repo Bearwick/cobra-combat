@@ -71,8 +71,5 @@ public class OpponentSnake extends Snake {
     public int getOpponentLength() {
         return opponentLength;
     }
-    public String getOpponentNickname() {
-        return opponentData.getNickName();
-    }
 }
 

@@ -23,10 +23,6 @@ public class PlayerSnake extends Snake {
     public int getLength() {
         return length;
     }
-
-    public String getNickname() {
-        return playerData.getNickName();
-    }
     @Override
     public void move() {
         moveBody();

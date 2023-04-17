@@ -191,7 +191,7 @@ public class GamePlayState extends State implements oponentDataCallback {
             bodyPart.getSprite().draw(sb);
         opponent.getHead().draw(sb);
 
-        scoreBoard = "Player 1: " + player.getLength() + "\n" + "Player 2: " + opponent.getOpponentLength();
+        scoreBoard = playerName + ": " + player.getLength() + "\n" + oponentName + ": " + opponent.getOpponentLength();
         map.getData().setScale(5);
         map.draw(sb, scoreBoard, 100, 1300);
 

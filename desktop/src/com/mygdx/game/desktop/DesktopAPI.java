@@ -50,6 +50,7 @@ public class DesktopAPI implements API {
 	public void FindLobby(String playerName) {
 		LobbyData lobbyData = new LobbyData();
 		lobbyData.setPlayer1("DesktopPlayer1");
+		lobbyData.setPlayer2("hei<3");
 		apiCallback.joinGameCallback(lobbyData);
 	}
 
