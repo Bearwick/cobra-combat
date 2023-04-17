@@ -11,6 +11,7 @@ public class Apple implements Edible{
     private Vector2 position;
     private Sprite body;
     private Rectangle bounds;
+    private String type;
 
     public Apple(Vector2 position){
         this.body = new Sprite(new Texture("apple.png"));
@@ -18,6 +19,7 @@ public class Apple implements Edible{
         this.position = position;
         body.setPosition(position.x, position.y);
         bounds = new Rectangle(position.x, position.y, body.getWidth(), body.getHeight());
+        setType("APPLE");
     }
 
     @Override   //Ikke i bruk per nå, men kanskje den kan brukes for å løse et tilfelle hvor to edibles spawner samme sted
@@ -40,6 +42,16 @@ public class Apple implements Edible{
     @Override
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
