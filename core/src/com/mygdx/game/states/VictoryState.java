@@ -1,13 +1,14 @@
 package com.mygdx.game.states;
 
+import static com.mygdx.game.MyGdxGame.API;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.API;
 import com.mygdx.game.MyGdxGame;
-import static com.mygdx.game.MyGdxGame.API;
-public class GameOverState extends State{
+
+public class VictoryState extends State {
 
     private Texture background;
     private Texture title;
@@ -16,16 +17,15 @@ public class GameOverState extends State{
     private static int menuBtnOffset = -250;
     private Vector3 touchPos;
 
-    protected GameOverState(GameStateManager gsm) {
+    protected VictoryState(GameStateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("cobraCombatBG.png");
-        title = new Texture("gameover.png");
+        title = new Texture("victory.png");
         menuBtn = new Texture("menu.png");
         touchPos = new Vector3();
         API.resetJoinGameBooleans();
     }
-
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
@@ -56,7 +56,7 @@ public class GameOverState extends State{
 
     @Override
     public void dispose() {
-        background.dispose();
         title.dispose();
+        background.dispose();
     }
 }
