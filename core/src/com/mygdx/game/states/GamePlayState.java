@@ -54,6 +54,9 @@ public class GamePlayState extends State implements oponentDataCallback {
         for (int i=0; i<5; i++){
             edibleFactory.getEdible("APPLE");
         }
+        for (int i=0; i<2; i++){
+            edibleFactory.getEdible("RAINBOW");
+        }
         edibleArray = edibleFactory.getEdibleArray();
         touchPos = new Vector3();
         oponentData = new PlayerData();
@@ -138,10 +141,20 @@ public class GamePlayState extends State implements oponentDataCallback {
         deltaTime2 += dt;
         deltaTime3 += dt;
         if (player.hasEaten(edibleArray)) {
-            deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED*4;
-            player.addBodyPart(player.getLastTailPosition());
-            edibleFactory.getEdible("APPLE");
+            if (edibleFactory.getType().equals("APPLE")) {
+                deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
+                player.addBodyPart(player.getLastTailPosition());
+                edibleFactory.getEdible("APPLE");
+            }
+            else { //if type is RAINBOW
+                deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
+                for (int i = 0; i < 2; i++) {
+                    player.addBodyPart(player.getLastTailPosition());
+                }
+                edibleFactory.getEdible("RAINBOW");
+            }
         }
+
         if (player.collides())
             gsm.set(new GameOverState(gsm));
         if (deltaTime >= MyGdxGame.GAMESPEED) {
