@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PlayerSnake extends Snake {
     private String direction;
-
+    private int length;
     public Vector2 lastTailPosition;
     public Float lastTailRotation;
     private PlayerData playerData;
@@ -18,6 +18,14 @@ public class PlayerSnake extends Snake {
         direction = MyGdxGame.dir_up;
         // Creates object for player data such as position. Used for Firebase.
         setPlayerData(nickName);
+        length = 2;
+    }
+    public int getLength() {
+        return length;
+    }
+
+    public String getNickname() {
+        return playerData.getNickName();
     }
     @Override
     public void move() {
@@ -66,6 +74,8 @@ public class PlayerSnake extends Snake {
         // Notify the playerData-object that a new tail has been added
         playerData.addPosition(lastTailPosition);
         playerData.addRotation(lastTailRotation);
+        length += 1;
+        System.out.println(Integer.toString(length));
     }
     public Vector2 getLastTailPosition(){
         return new Vector2(lastTailPosition);
