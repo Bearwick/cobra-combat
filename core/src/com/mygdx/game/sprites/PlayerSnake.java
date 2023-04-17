@@ -71,7 +71,7 @@ public class PlayerSnake extends Snake {
         playerData.addPosition(lastTailPosition);
         playerData.addRotation(lastTailRotation);
         length += 1;
-        System.out.println(Integer.toString(length));
+        //System.out.println(Integer.toString(length));
     }
     public Vector2 getLastTailPosition(){
         return new Vector2(lastTailPosition);
@@ -92,14 +92,14 @@ public class PlayerSnake extends Snake {
         return false;
     }
 
-    public boolean hasEaten(ArrayList<Edible> edibleArray){
+    public Edible overlapsAnEdible(ArrayList<Edible> edibleArray){
         for(Edible e: edibleArray){
             if (headBounds.overlaps(e.getBounds())){
                 edibleArray.remove(e);
-                return true;
+                return e;
             }
     }
-        return false;
+        return null;
     }
 
     public PlayerData getPlayerData() {

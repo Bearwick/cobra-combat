@@ -10,6 +10,8 @@ public interface Edible {
     public Vector2 getPosition();
     public Sprite getBody();
     public Rectangle getBounds();
+    public String getType();
+    public void setType(String type);
 
     public void dispose();
 

@@ -10,9 +10,8 @@ import java.util.HashMap;
 
 public class EdibleFactory {
 
-    private String type;
-    protected ArrayList<Edible> edibleArray = new ArrayList<Edible>();
-    private Array<Vector2> ediblePositions = new Array<Vector2>(); //Array to help avoid overlapping spawning
+    protected ArrayList<Edible> edibleArray = new ArrayList<>();
+    private Array<Vector2> ediblePositions = new Array<>(); //Array to help avoid overlapping spawning
     private Vector2 generateRandomPosition(){ //helper method to generate random vector
         Vector2 randomVector = new Vector2();
         int min = 1;
@@ -39,7 +38,6 @@ public class EdibleFactory {
             edible = new Apple(randomPosition);
             ediblePositions.add(edible.getPosition());
             edibleArray.add(edible);
-            type = "APPLE";
             return edible;
         }
         if(edibleType.equalsIgnoreCase("RAINBOW")){
@@ -47,7 +45,6 @@ public class EdibleFactory {
             edible = new Rainbow(randomPosition);
             ediblePositions.add(edible.getPosition());
             edibleArray.add(edible);
-            type = "RAINBOW";
             return edible;
         }
         return null;
@@ -55,9 +52,5 @@ public class EdibleFactory {
 
     public ArrayList<Edible> getEdibleArray(){
         return edibleArray;
-    }
-
-    public String getType() {
-        return type;
     }
 }

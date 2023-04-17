@@ -22,7 +22,6 @@ import com.mygdx.game.sprites.OpponentSnake;
 import com.mygdx.game.sprites.PlayerSnake;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GamePlayState extends State implements oponentDataCallback {
     private String scoreBoard;
@@ -38,9 +37,8 @@ public class GamePlayState extends State implements oponentDataCallback {
     private Vector3 touchPos;
     private float deltaTime;
     private float deltaTime2;
-    private float deltaTime3;
-    EdibleFactory edibleFactory;
-    ArrayList<Edible> edibleArray;
+    private EdibleFactory edibleFactory;
+    private ArrayList<Edible> edibleArray;
 
     private LobbyData lobbyData;
     private PlayerData oponentData;
@@ -143,18 +141,22 @@ public class GamePlayState extends State implements oponentDataCallback {
         handleInput();
         deltaTime += dt;
         deltaTime2 += dt;
-        deltaTime3 += dt;
-        if (player.hasEaten(edibleArray)) {
-            System.out.println((edibleFactory.getType()));
-            if (edibleFactory.getType().equals("APPLE")) {
+
+        // Checks if the player overlaps with a pickup. If so, check to see which
+        // pickup it is, apply whatever the pickup does, and spawn another one.
+        Edible overlappingEdible = player.overlapsAnEdible(edibleArray);
+        if (overlappingEdible != null) {
+            System.out.println(overlappingEdible.getType());
+            if (overlappingEdible.getType().equals("APPLE")) {
                 deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
                 player.addBodyPart(player.getLastTailPosition());
                 edibleFactory.getEdible("APPLE");
                 System.out.println(("APPLE EDIBLE WAS EATEN"));
             }
-            else { //if type is RAINBOW
+            else if (overlappingEdible.getType().equals("RAINBOW")) { //if type is RAINBOW
                 deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
-                for (int i = 0; i < 2; i++) {
+                // Adds three body segments to the snake
+                for (int i = 0; i <= 2; i++) {
                     player.addBodyPart(player.getLastTailPosition());
                 }
                 edibleFactory.getEdible("RAINBOW");
@@ -220,12 +222,12 @@ public class GamePlayState extends State implements oponentDataCallback {
 
     @Override
     public void setOponentData(PlayerData opponentData) {
-        System.out.println("setOponentData : Callback");
+        //System.out.println("setOponentData : Callback");
         oponentData = opponentData;
         if(oponentData == null)
             System.out.println("oponentData is NULL !!");
         else {
-            System.out.println(oponentData);
+            //System.out.println(oponentData);
             opponent.setOpponentData(opponentData);
         }
 
