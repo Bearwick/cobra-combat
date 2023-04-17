@@ -15,6 +15,8 @@ public class GameTutorialState extends State{
     private Texture tut2;
     private Texture tut3;
     private Texture tut4;
+    private Texture tut5;
+    private Texture tut6;
     private static int tutOffset = -650;
     private static int arrowOffset = 1200;
     private static int page;
@@ -24,10 +26,12 @@ public class GameTutorialState extends State{
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("cobraCombatBG.png");
-        tut1 = new Texture("tutorial1.png");
-        tut2 = new Texture("tutorial2.png");
-        tut3 = new Texture("tutorial3.png");
-        tut4 = new Texture("tutorial4.png");
+        tut1 = new Texture("tutorialClockwise.png");
+        tut2 = new Texture("tutorialAnticlockwise.png");
+        tut3 = new Texture("tutorialApples.png");
+        tut4 = new Texture("tutorialPowerup.png");
+        tut5 = new Texture("tutorialDeath.png");
+        tut6 = new Texture("tutorialEnd.png");
         left = new Texture("leftArrow.png");
         right = new Texture("rightArrow.png");
         touchPos = new Vector3();
@@ -74,6 +78,10 @@ public class GameTutorialState extends State{
             sb.draw(tut3, cam.position.x - (tut3.getWidth() / 2), cam.position.y + tutOffset);
         } else if (page == 4) {
             sb.draw(tut4, cam.position.x - (tut4.getWidth() / 2), cam.position.y + tutOffset);
+        } else if (page == 5) {
+            sb.draw(tut5, cam.position.x - (tut4.getWidth() / 2), cam.position.y + tutOffset);
+        } else if (page == 6) {
+            sb.draw(tut6, cam.position.x - (tut4.getWidth() / 2), cam.position.y + tutOffset);
         } else {
             gsm.set(new GameMenuState(gsm));
         }
@@ -87,5 +95,7 @@ public class GameTutorialState extends State{
         tut2.dispose();
         tut3.dispose();
         tut4.dispose();
+        tut5.dispose();
+        tut6.dispose();
     }
 }
