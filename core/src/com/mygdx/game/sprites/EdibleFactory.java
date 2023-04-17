@@ -39,6 +39,13 @@ public class EdibleFactory {
             edibleArray.add(edible);
             return edible;
         }
+        if(edibleType.equalsIgnoreCase("RAINBOW")){
+            Edible edible;
+            edible = new Rainbow(randomPosition);
+            ediblePositions.add(edible.getPosition());
+            edibleArray.add(edible);
+            return edible;
+        }
         return null;
     }
 
