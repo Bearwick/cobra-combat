@@ -95,6 +95,10 @@ public class PlayerSnake extends Snake {
             if (headBounds.overlaps(bodypart.getBounds()))
                 return true;
         }
+        for (BodyPart bodyPart : opponent.getBody())
+            if (headBounds.overlaps(bodyPart.getBounds()))
+                return true;
+
         return false;
     }
 
