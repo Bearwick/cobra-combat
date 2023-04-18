@@ -18,7 +18,9 @@ public class PlayerData {
         rotation = new ArrayList<>();
         dead = false;
     }
-
+    public void setDead(Boolean dead){
+        this.dead = dead;
+    }
     public String getNickName() {
         return nickName;
     }
