@@ -163,7 +163,6 @@ public class GamePlayState extends State implements oponentDataCallback {
 
         if (player.collides(opponent)){
             player.setDead();
-
         }
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
@@ -172,6 +171,9 @@ public class GamePlayState extends State implements oponentDataCallback {
             API.getOponentData(oponentName);
             if(player.isDead())
                 gsm.set(new GameOverState(gsm));
+            if (opponent.isDead()){
+                gsm.set(new VictoryState(gsm));
+            }
         }
     }
 

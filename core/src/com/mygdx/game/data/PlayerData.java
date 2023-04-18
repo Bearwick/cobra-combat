@@ -9,7 +9,6 @@ public class PlayerData {
     private String nickName;
     private List<Vector2> position;
     private List<Float> rotation;
-    private int score;
     private Boolean dead;
 
     public PlayerData() {
@@ -21,6 +20,9 @@ public class PlayerData {
     public void setDead(Boolean dead){
         this.dead = dead;
     }
+    public Boolean getDead(){
+        return this.dead;
+    }
     public String getNickName() {
         return nickName;
     }
@@ -30,18 +32,12 @@ public class PlayerData {
     public List<Float> getRotation(){
         return rotation;
     }
-    public int getScore() {
-        return score;
-    }
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
     public void setPosition(List<Vector2> position) {
         this.position = position;
-    }
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public void addPosition(Vector2 pos) {

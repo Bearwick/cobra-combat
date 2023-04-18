@@ -11,7 +11,7 @@ public class OpponentSnake extends Snake {
 
     protected Texture bodyTexture;
     private PlayerData opponentData;
-
+    private Boolean dead;
     public OpponentSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition, String nickName) {
         super(headTexture, bodyTexture, startingPosition);
         this.bodyTexture = bodyTexture;
@@ -20,7 +20,12 @@ public class OpponentSnake extends Snake {
     public PlayerData getPlayerData() {
         return opponentData;
     }
-
+    public void setDead(Boolean dead){
+        this.dead = true;
+    }
+    public Boolean isDead(){
+        return this.dead;
+    }
     /**
      * Creates a new playerData object and inserts the following data into it:
      * - The player's nickname / username
@@ -31,8 +36,10 @@ public class OpponentSnake extends Snake {
         this.opponentData = opponentData;
         List<Vector2> pos = opponentData.getPosition();
         List<Float> rot = opponentData.getRotation();
-        int totalSnakesize = pos.size();
 
+        setDead(opponentData.getDead());
+
+        int totalSnakesize = pos.size();
         this.setHeadPosition(pos.get(0));
         this.setHeadRotation(rot.get(0));
 
