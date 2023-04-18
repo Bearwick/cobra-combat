@@ -58,7 +58,7 @@ public class OpponentSnake extends Snake {
         this.setHeadPosition(pos.get(0));
         this.setHeadRotation(rot.get(0));
 
-        while (this.getBody().size < totalSnakesize)
+        while (this.getBody().size < totalSnakesize-1)
             this.getBody().add(new BodyPart(bodyTexture, pos.get(totalSnakesize-1), rot.get(totalSnakesize-1)));
         System.out.println(totalSnakesize);
         opponentLength = totalSnakesize;
