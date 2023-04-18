@@ -170,9 +170,9 @@ public class GamePlayState extends State implements oponentDataCallback {
             API.sendPos(player.getPlayerData());
             API.getOponentData(oponentName);
             if(player.isDead())
-                gsm.set(new GameOverState(gsm));
+                gsm.set(new GameOverState(gsm, playerName));
             if (opponent.isDead()){
-                gsm.set(new VictoryState(gsm));
+                gsm.set(new VictoryState(gsm, playerName));
             }
         }
     }
