@@ -22,7 +22,7 @@ public class OpponentSnake extends Snake {
         return opponentData;
     }
     public void setDead(Boolean dead){
-        this.dead = true;
+        this.dead = dead;
     }
     public Boolean isDead(){
         return this.dead;
