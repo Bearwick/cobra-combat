@@ -15,6 +15,7 @@ public class OpponentSnake extends Snake {
     public OpponentSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition, String nickName) {
         super(headTexture, bodyTexture, startingPosition);
         this.bodyTexture = bodyTexture;
+        this.dead = false;
 
     }
     public PlayerData getPlayerData() {
