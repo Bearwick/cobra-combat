@@ -11,12 +11,10 @@ public class OpponentSnake extends Snake {
 
     protected Texture bodyTexture;
     private PlayerData opponentData;
-    private int opponentLength;
 
     public OpponentSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition, String nickName) {
         super(headTexture, bodyTexture, startingPosition);
         this.bodyTexture = bodyTexture;
-        opponentLength = 2;
 
     }
     public PlayerData getPlayerData() {
@@ -41,15 +39,11 @@ public class OpponentSnake extends Snake {
         while (this.getBody().size < totalSnakesize-1)
             this.getBody().add(new BodyPart(bodyTexture, pos.get(totalSnakesize-1), rot.get(totalSnakesize-1)));
         System.out.println(totalSnakesize);
-        opponentLength = totalSnakesize;
+        setScore(totalSnakesize-2);
         for(int i = 1; i<totalSnakesize; i++){
             this.getBody().get(i-1).setPosition(pos.get(i));
             this.getBody().get(i-1).setRotation(rot.get(i));
         }
-    }
-
-    public int getOpponentLength() {
-        return opponentLength;
     }
 }
 

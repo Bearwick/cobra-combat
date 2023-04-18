@@ -10,12 +10,13 @@ public class PlayerData {
     private List<Vector2> position;
     private List<Float> rotation;
     private int score;
+    private Boolean dead;
 
     public PlayerData() {
         this.nickName = "";
         this.position = new ArrayList<>();
         rotation = new ArrayList<>();
-        this.score = 0;
+        dead = false;
     }
 
     public String getNickName() {

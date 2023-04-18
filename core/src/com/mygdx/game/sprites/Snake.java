@@ -15,7 +15,7 @@ public abstract class Snake {
     private Vector2 position;
     private float headRotation;
     protected Rectangle headBounds;
-
+    private int score;
     public Snake(Texture headTexture,Texture bodyTexture, Vector2 startingPosition){
         this.position = startingPosition;
         this.head = new Sprite(headTexture);
@@ -28,6 +28,16 @@ public abstract class Snake {
         this.headBounds = new Rectangle();
         this.headBounds.setPosition(this.position);
         this.headBounds.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
+        this.score = 0;
+    }
+    public int getScore() {
+        return score;
+    }
+    public void setScore(int score){
+        this.score = score;
+    }
+    public void addScore(){
+        this.score++;
     }
     public Array<BodyPart> getBody(){
         return this.body;
@@ -48,6 +58,7 @@ public abstract class Snake {
         this.head.setRotation(degrees);
         this.headRotation = Float.valueOf(degrees);
     }
+
     public float getHeadRotation(){
         return Float.valueOf(headRotation);
     }
@@ -55,5 +66,4 @@ public abstract class Snake {
     public Rectangle getHeadBounds(){
         return new Rectangle(headBounds);
     }
-
 }
