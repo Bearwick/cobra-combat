@@ -13,32 +13,12 @@ public class OpponentSnake extends Snake {
     private PlayerData opponentData;
     private int opponentLength;
 
-
     public OpponentSnake(Texture headTexture, Texture bodyTexture, Vector2 startingPosition, String nickName) {
         super(headTexture, bodyTexture, startingPosition);
         this.bodyTexture = bodyTexture;
         opponentLength = 2;
 
     }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public boolean collides() {
-        if (getHeadPosition().x < 0 || getHeadPosition().x > (MyGdxGame.WIDTH - MyGdxGame.GRID_CELL_X))
-            return true;
-        if (getHeadPosition().y < 0 || getHeadPosition().y > (MyGdxGame.HEIGHT - MyGdxGame.GRID_CELL_Y))
-            return true;
-        for (BodyPart bodypart : body) {
-            if (headBounds.overlaps(bodypart.getBounds()))
-                return true;
-        }
-        return false;
-    }
-
     public PlayerData getPlayerData() {
         return opponentData;
     }

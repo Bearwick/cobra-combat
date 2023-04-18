@@ -79,8 +79,8 @@ public class PlayerSnake extends Snake {
     public void setDirection(String direction){
         this.direction = direction;
     }
-    @Override
-    public boolean collides() {
+
+    public boolean collides(Snake opponent) {
         if (getHeadPosition().x < 0 || getHeadPosition().x > (MyGdxGame.WIDTH-MyGdxGame.GRID_CELL_X))
             return true;
         if (getHeadPosition().y < 0 || getHeadPosition().y > (MyGdxGame.HEIGHT-MyGdxGame.GRID_CELL_Y))

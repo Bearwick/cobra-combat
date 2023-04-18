@@ -108,7 +108,6 @@ public class GamePlayState extends State implements oponentDataCallback {
                 else if(player.getDirection() == "left"){
                     player.setDirection(MyGdxGame.dir_down);
                 }
-
             }
 
             if (touchPos.x > cam.position.x) { //Press right side of screen to move 90 degrees clock-wise
@@ -121,7 +120,6 @@ public class GamePlayState extends State implements oponentDataCallback {
                 else if (player.getDirection() == "down"){
                     player.setDirection(MyGdxGame.dir_left);
                 }
-
                 else if(player.getDirection() == "left"){
                     player.setDirection(MyGdxGame.dir_up);
                 }
@@ -133,7 +131,6 @@ public class GamePlayState extends State implements oponentDataCallback {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.setDirection(MyGdxGame.dir_down);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.setDirection(MyGdxGame.dir_right);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.setDirection(MyGdxGame.dir_left);
-
     }
 
     @Override
@@ -164,7 +161,7 @@ public class GamePlayState extends State implements oponentDataCallback {
             }
         }
 
-        if (player.collides())
+        if (player.collides(opponent))
             gsm.set(new GameOverState(gsm));
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;

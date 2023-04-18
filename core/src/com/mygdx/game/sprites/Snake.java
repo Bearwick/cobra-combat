@@ -51,11 +51,9 @@ public abstract class Snake {
     public float getHeadRotation(){
         return Float.valueOf(headRotation);
     }
-    public abstract void move();
 
     public Rectangle getHeadBounds(){
         return new Rectangle(headBounds);
     }
 
-    public abstract boolean collides();
 }
