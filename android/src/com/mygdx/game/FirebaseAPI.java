@@ -153,5 +153,9 @@ public class FirebaseAPI implements API {
     public void setGameCallback(oponentDataCallback oponentCallback) {
         this.oponentCallback = oponentCallback;
     }
+    @Override
+    public void deletePlayerData(String playerName){
+        gameRef.child(playerName).removeValue();
+    }
 }
 

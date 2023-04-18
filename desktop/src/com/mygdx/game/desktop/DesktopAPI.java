@@ -74,6 +74,9 @@ public class DesktopAPI implements API {
 	public void resetJoinGameBooleans(){
 
 	}
+	@Override
+	public void deletePlayerData(String playerName){
 
+	}
 
 }

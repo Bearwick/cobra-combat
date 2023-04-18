@@ -15,8 +15,10 @@ public class GameOverState extends State{
     private Texture menuBtn;
     private static int menuBtnOffset = -250;
     private Vector3 touchPos;
+    private float deltaTime;
+    private String playerName;
 
-    protected GameOverState(GameStateManager gsm) {
+    protected GameOverState(GameStateManager gsm, String playerName) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("cobraCombatBG.png");
@@ -24,6 +26,7 @@ public class GameOverState extends State{
         menuBtn = new Texture("menu.png");
         touchPos = new Vector3();
         API.resetJoinGameBooleans();
+        this.playerName = playerName;
     }
 
     @Override
@@ -42,6 +45,12 @@ public class GameOverState extends State{
     @Override
     public void update(float dt) {
         handleInput();
+        deltaTime += dt;
+        if (deltaTime > 5){
+            deltaTime = deltaTime % 5;
+            API.deletePlayerData(this.playerName);
+        }
+
     }
 
     @Override

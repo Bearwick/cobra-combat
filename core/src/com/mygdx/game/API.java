@@ -27,4 +27,6 @@ public interface API {
 
     void getOponentData(String oponentName);
 
+    void deletePlayerData(String playerName);
+
 }
