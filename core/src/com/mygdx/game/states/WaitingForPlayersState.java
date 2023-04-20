@@ -23,7 +23,7 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
         waitingMessage = new BitmapFont();
-        waitingMessage.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
+        waitingMessage.getData().setScale(9, 9);
         this.lobbyName = lobbyName;
         lobbyData= new LobbyData();
         API.setApiCallback(this);
@@ -66,7 +66,7 @@ public class WaitingForPlayersState extends State implements lobbyDataCallback {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0, 0);
-        waitingMessage.draw(sb, "Waiting for players.....", cam.position.x - MyGdxGame.GRID_CELL_X*11  , cam.position.y );
+        waitingMessage.draw(sb, "Waiting for players.....", cam.position.x - MyGdxGame.GRID_CELL_X*5  , cam.position.y );
         sb.end();
     }
 
