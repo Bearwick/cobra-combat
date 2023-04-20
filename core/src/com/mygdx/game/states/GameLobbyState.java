@@ -49,7 +49,7 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         createGameNow=false;
 
         this.userName = new BitmapFont();
-        this.userName.getData().setScale(MyGdxGame.GRID_CELL_Y/5, MyGdxGame.GRID_CELL_Y/5);
+        this.userName.getData().setScale(9, 9);
 
         this.lobbyData = new LobbyData();
         this.lobbyName = "newLobby";

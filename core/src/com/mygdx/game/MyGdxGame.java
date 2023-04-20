@@ -13,7 +13,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public static final int WIDTH = 3120;
 	public static final int HEIGHT = 1440;
-	public static final int CELL_RATIO = 64;
+	public static final int CELL_RATIO = 32;
 	public static final int GRID_CELL_X = WIDTH/CELL_RATIO;
 	public static final int GRID_CELL_Y = HEIGHT/(CELL_RATIO/2);
 	public static final float GAMESPEED = 0.6f;

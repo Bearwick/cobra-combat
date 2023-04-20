@@ -70,7 +70,7 @@ public class GamePlayState extends State implements oponentDataCallback {
             oponentName = lobbyData.getPlayer2();
         }
         else {
-            startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
+            startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO-1),0);
             oponentStartingPosition = new Vector2(0,0);
             playerName = lobbyData.getPlayer2();
             oponentName = lobbyData.getPlayer1();

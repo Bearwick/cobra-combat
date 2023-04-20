@@ -16,7 +16,7 @@ public class EdibleFactory {
         Vector2 randomVector = new Vector2();
         int min = 1;
 
-        randomVector.set((int) Math.floor(Math.random() * (63 - min + 1) + min) * MyGdxGame.GRID_CELL_X, (int) Math.floor(Math.random() * (31 - min + 1) + min) * MyGdxGame.GRID_CELL_Y);
+        randomVector.set((int) Math.floor(Math.random() * (MyGdxGame.CELL_RATIO - 1)) * MyGdxGame.GRID_CELL_X, (int) Math.floor(Math.random() * (MyGdxGame.CELL_RATIO/2 - 1)) * MyGdxGame.GRID_CELL_Y);
         return randomVector;
     }
 
