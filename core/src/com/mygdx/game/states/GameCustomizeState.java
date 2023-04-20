@@ -15,12 +15,14 @@ public class GameCustomizeState extends State{
     private Vector3 touchPos;
     private Texture snake1;
     private Texture snake2;
+    private Texture snake3;
     private static int snakePlacement = 50;
     private static int arrowOffset = 1000;
     private Texture left;
     private Texture right;
 
     private static int snakeNumber;
+    private static int totalSnakes;
 
 
     protected GameCustomizeState(GameStateManager gsm) {
@@ -30,10 +32,12 @@ public class GameCustomizeState extends State{
         chooseBtn = new Texture("chooseSkin.png");
         touchPos = new Vector3();
         snake1 = new Texture("snakehead.png");
-        snake2 = new Texture(("snakehead2.png"));
+        snake2 = new Texture("snakehead2.png");
+        snake3 = new Texture("snakehead3.png");
         left = new Texture("leftArrow.png");
         right = new Texture("rightArrow.png");
         snakeNumber = 1;
+        totalSnakes = 3;
     }
 
     public static int getCustomSnake() {
@@ -54,18 +58,18 @@ public class GameCustomizeState extends State{
             if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-left.getWidth()))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + left.getHeight()) {
                     System.out.println("Go left");
-                    if (snakeNumber == 2) {
-                        snakeNumber = 1; }
+                    if (snakeNumber == 1) {
+                        snakeNumber = totalSnakes; }
                     else {
-                        snakeNumber = 2; }
+                        snakeNumber--; }
                 }
             if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset- right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + right.getHeight()) {
                     System.out.println("Go right");
-                    if (snakeNumber == 2) {
+                    if (snakeNumber == totalSnakes) {
                         snakeNumber = 1; }
                     else {
-                        snakeNumber = 2; }
+                        snakeNumber++; }
                 }
         }
     }
@@ -84,8 +88,11 @@ public class GameCustomizeState extends State{
         if (snakeNumber == 1) {
             sb.draw(snake1, cam.position.x - (snake1.getWidth() / 2), cam.position.y + snakePlacement);
         }
-        else {
+        else if (snakeNumber == 2) {
             sb.draw(snake2, cam.position.x - (snake2.getWidth() / 2), cam.position.y + snakePlacement);
+        }
+        else {
+            sb.draw(snake3, cam.position.x - (snake3.getWidth() / 2), cam.position.y + snakePlacement);
         }
         sb.draw(right, cam.position.x + arrowOffset, cam.position.y + snakePlacement);
         sb.draw(left, cam.position.x - arrowOffset, cam.position.y + snakePlacement);
@@ -99,6 +106,7 @@ public class GameCustomizeState extends State{
         chooseBtn.dispose();
         snake1.dispose();
         snake2.dispose();
+        snake3.dispose();
         left.dispose();
         right.dispose();
     }
