@@ -76,13 +76,15 @@ public class GamePlayState extends State implements oponentDataCallback {
             oponentName = lobbyData.getPlayer1();
         }
 
-        if (GameCustomizeState.getCustomSnake() == 2) {
-            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition, playerName);
-            opponent = new OpponentSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),oponentStartingPosition, oponentName);
-        }
-        else {
+        if (GameCustomizeState.getCustomSnake() == 1) {
             player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition, playerName);
             opponent = new OpponentSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),oponentStartingPosition, oponentName);
+        } else if (GameCustomizeState.getCustomSnake() == 2) {
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"),oponentStartingPosition, oponentName);
+        } else {
+            player = new PlayerSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"),startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),oponentStartingPosition, oponentName);
         }
         API.setGameCallback(this);
 
