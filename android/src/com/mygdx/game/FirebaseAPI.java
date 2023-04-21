@@ -66,7 +66,7 @@ public class FirebaseAPI implements API {
     }
     @Override
     public void deleteLobby(String lobby) {
-
+        lobbyRef.child(lobby).removeValue();
     }
 
     @Override
@@ -95,6 +95,7 @@ public class FirebaseAPI implements API {
                     for (DataSnapshot ds : task.getResult().getChildren()){
                         lobbyData = ds.getValue(LobbyData.class);
 
+
                         if(lobbyData.getPlayer2().equals("none") && !lobbyData.getPlayer1().equals("none")){
                             lobbyData.setPlayer2(playerName);
                             DatabaseReference gameref = lobbyRef.child(ds.getKey());
@@ -113,20 +114,6 @@ public class FirebaseAPI implements API {
         }
     }
 
-    @Override
-    public void getMessage(ArrayList<String> messages) {
-        //This never runs,
-        gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                System.out.println("Android: fetch massaaaage");
-                String res = task.getResult().getValue().toString();
-                messages.add(res);
-                System.out.println(task);
-            }
-        });
-
-    }
 
     @Override
     public void getOponentData(String oponentName) {
@@ -144,6 +131,7 @@ public class FirebaseAPI implements API {
     public void resetJoinGameBooleans(){
         this.gameJoined = false;
         this.gameCreated = false;
+        lobbyData = new LobbyData();
     }
     @Override
     public void setApiCallback(lobbyDataCallback apiCallback) {

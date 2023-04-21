@@ -20,10 +20,6 @@ public class DesktopAPI implements API {
 		System.out.println(data.toString());
 	}
 
-	@Override
-	public void getMessage(ArrayList<String> messages) {
-		System.out.println("...get");
-	}
 
 	@Override
 	public void createNewLobby(String lobbyName, String playerName) {
@@ -51,7 +47,8 @@ public class DesktopAPI implements API {
 		LobbyData lobbyData = new LobbyData();
 		lobbyData.setPlayer1("DesktopPlayer1");
 		lobbyData.setPlayer2("hei<3");
-		apiCallback.joinGameCallback(lobbyData);
+		//apiCallback.joinGameCallback(lobbyData);
+		apiCallback.createGameCallback();
 	}
 
 	@Override

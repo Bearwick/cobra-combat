@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface API {
     void sendPos(PlayerData data);
-    void getMessage(ArrayList<String> messages);
 
     //  ---------- Setters Game Lobby ----------
     void createNewLobby(String lobbyName, String playerName);
