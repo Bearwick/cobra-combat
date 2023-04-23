@@ -1,6 +1,12 @@
 # Cobra Combat
 Cobra Combat is an online multiplayer snake game where two players battle against eachother to be the last snake standing. You start off small, but become increasingly bigger by going over various pickups that spawns randomly on the stage.
 
+## Structure
+
+The majority of the files can be found in `core/src/com/mygdx/game/`. Here they are grouped into related packages, such as various state-files being in the `states`-package.
+
+The API that does all the calls for Firebase is in `android/src/com/mygdx/game/`, as well as the android launcher used to start the application on android devices.
+
 ## How to Install the Game
 
 - __Using Android Studio's emulator:__ ___(This is also how to run the project)___
