@@ -2,14 +2,10 @@ package com.mygdx.game.desktop;
 
 
 import com.mygdx.game.API;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.lobbyDataCallback;
-import com.mygdx.game.oponentDataCallback;
-
-import java.util.ArrayList;
-import java.util.Map;
+import com.mygdx.game.opponentDataCallback;
 
 public class DesktopAPI implements API {
 	public lobbyDataCallback apiCallback;
@@ -58,12 +54,12 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void setGameCallback(oponentDataCallback getOponentData) {
+	public void setGameCallback(opponentDataCallback getOponentData) {
 
 	}
 
 	@Override
-	public void getOponentData(String oponentName) {
+	public void getOpponentData(String opponentName) {
 
 	}
 

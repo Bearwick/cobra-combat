@@ -7,35 +7,25 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
-import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.lobbyDataCallback;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameLobbyState extends State implements lobbyDataCallback {
 
-    private Texture background;
-    private Texture playBtn;
-    private Texture changeNameBtn;
-    private Vector3 touchPos;
-
+    private static final int changeNameBtnOffset = -370;
+    private final BitmapFont userName;
+    private final MyTextInputListener listener = new MyTextInputListener();
+    private final Texture background;
+    private final Texture playBtn;
+    private final Texture changeNameBtn;
+    private final Vector3 touchPos;
     private LobbyData lobbyData;
-    private String lobbyName;
-
-    private static int changeNameBtnOffset =-370;
+    private final String lobbyName;
     private String playerName = "";
-    BitmapFont userName;
-    MyTextInputListener listener = new MyTextInputListener();
-
     private boolean joinGameNow;
     private boolean createGameNow;
-
 
 
     public GameLobbyState(GameStateManager gsm) {
@@ -45,8 +35,8 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         playBtn = new Texture("play.png");
         changeNameBtn = new Texture("changeNameBtn.png");
         touchPos = new Vector3();
-        joinGameNow=false;
-        createGameNow=false;
+        joinGameNow = false;
+        createGameNow = false;
 
         this.userName = new BitmapFont();
         this.userName.getData().setScale(9, 9);
@@ -56,21 +46,10 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         API.setApiCallback(this);
     }
 
-
-    public class MyTextInputListener implements Input.TextInputListener {
-        @Override
-        public void input (String text) {
-            playerName = text;
-        }
-
-        @Override
-        public void canceled () {
-        }
-    }
-
-    private void joinGameLobby(){
+    private void joinGameLobby() {
         API.FindLobby(playerName);
     }
+
     @Override
     public void joinGameCallback(LobbyData lobbyData) {
         System.out.println("Join Game Callback: Attempting to join lobby... ");
@@ -78,13 +57,12 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         joinGameNow = true;
 
     }
+
     @Override
     public void createGameCallback() {
         System.out.println("Create Game Callback:: Creating new lobby ");
-        createGameNow=true;
-
+        createGameNow = true;
     }
-
 
     @Override
     protected void handleInput() {
@@ -93,8 +71,8 @@ public class GameLobbyState extends State implements lobbyDataCallback {
             cam.unproject(touchPos); // calibrates the input to your camera's dimensions
 
             //Change name button
-            if (touchPos.x > (cam.position.x - (changeNameBtn.getWidth() / 2)) && touchPos.x < (cam.position.x+(changeNameBtn.getWidth() / 2))) {
-                if(touchPos.y > (cam.position.y + changeNameBtnOffset) && touchPos.y < (cam.position.y + changeNameBtn.getHeight() + changeNameBtnOffset)) {
+            if (touchPos.x > (cam.position.x - (changeNameBtn.getWidth() / 2)) && touchPos.x < (cam.position.x + (changeNameBtn.getWidth() / 2))) {
+                if (touchPos.y > (cam.position.y + changeNameBtnOffset) && touchPos.y < (cam.position.y + changeNameBtn.getHeight() + changeNameBtnOffset)) {
                     Gdx.input.getTextInput(listener, "Player name", "", "E.g. Bit snake");
                 }
             }
@@ -106,6 +84,7 @@ public class GameLobbyState extends State implements lobbyDataCallback {
             }
         }
     }
+
     @Override
     public void update(float dt) {
         handleInput();
@@ -122,8 +101,8 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         sb.begin();
         sb.draw(background, 0, 0);
         sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight() / 2));
-        sb.draw(changeNameBtn, cam.position.x - (changeNameBtn.getWidth() / 2), cam.position.y +changeNameBtnOffset);
-        this.userName.draw(sb, "Player name: " + playerName, cam.position.x - userName.getRegion().getRegionWidth() - playerName.length()*(userName.getRegion().getRegionWidth()/6) - 70 , cam.position.y  + (playBtn.getHeight()) + userName.getRegion().getRegionHeight());
+        sb.draw(changeNameBtn, cam.position.x - (changeNameBtn.getWidth() / 2), cam.position.y + changeNameBtnOffset);
+        this.userName.draw(sb, "Player name: " + playerName, cam.position.x - userName.getRegion().getRegionWidth() - playerName.length() * (userName.getRegion().getRegionWidth() / 6) - 70, cam.position.y + (playBtn.getHeight()) + userName.getRegion().getRegionHeight());
         sb.end();
     }
 
@@ -132,5 +111,16 @@ public class GameLobbyState extends State implements lobbyDataCallback {
         background.dispose();
         playBtn.dispose();
         userName.dispose();
+    }
+
+    public class MyTextInputListener implements Input.TextInputListener {
+        @Override
+        public void input(String text) {
+            playerName = text;
+        }
+
+        @Override
+        public void canceled() {
+        }
     }
 }

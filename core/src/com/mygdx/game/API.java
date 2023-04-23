@@ -1,10 +1,6 @@
 package com.mygdx.game;
 
-import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public interface API {
     void sendPos(PlayerData data);
@@ -22,9 +18,9 @@ public interface API {
 
     void resetJoinGameBooleans();
     void setApiCallback(lobbyDataCallback getLobbyData);
-    void setGameCallback(oponentDataCallback getOponentData);
+    void setGameCallback(opponentDataCallback getOponentData);
 
-    void getOponentData(String oponentName);
+    void getOpponentData(String opponentName);
 
     void deletePlayerData(String playerName);
 

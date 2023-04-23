@@ -1,27 +1,27 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 
-public class GameTutorialState extends State{
+public class GameTutorialState extends State {
 
-    private Texture background;
-    private Vector3 touchPos;
-    private Texture tut1;
-    private Texture tut2;
-    private Texture tut3;
-    private Texture tut4;
-    private Texture tut5;
-    private Texture tut6;
-    private static int tutOffset = -650;
-    private static int arrowOffset = 1200;
+    private static final int tutOffset = -650;
+    private static final int arrowOffset = 1200;
     private static int page;
-    private Texture left;
-    private Texture right;
+    private final Texture background;
+    private final Vector3 touchPos;
+    private final Texture tut1;
+    private final Texture tut2;
+    private final Texture tut3;
+    private final Texture tut4;
+    private final Texture tut5;
+    private final Texture tut6;
+    private final Texture left;
+    private final Texture right;
+
     protected GameTutorialState(GameStateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
@@ -45,15 +45,15 @@ public class GameTutorialState extends State{
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touchPos);
 
-            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset- right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
+            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset - right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
                 if (touchPos.y > cam.position.y && touchPos.y < cam.position.y + right.getHeight()) {
                     System.out.println("Go right");
-                        page += 1;
+                    page += 1;
                 }
-            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-left.getWidth()))
+            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset - left.getWidth()))
                 if (touchPos.y > cam.position.y && touchPos.y < cam.position.y + left.getHeight()) {
                     System.out.println("Go left");
-                        page -= 1;
+                    page -= 1;
                 }
         }
     }
@@ -67,7 +67,7 @@ public class GameTutorialState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(background, 0, 0);
         sb.draw(right, cam.position.x + arrowOffset, cam.position.y);
         sb.draw(left, cam.position.x - arrowOffset, cam.position.y);
         if (page == 1) {

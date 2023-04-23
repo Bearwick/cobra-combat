@@ -1,28 +1,26 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 
-public class GameCustomizeState extends State{
+public class GameCustomizeState extends State {
 
-    private Texture background;
-    private Texture chooseBtn;
-    private static int chooseBtnOffset =-550;
-    private Vector3 touchPos;
-    private Texture snake1;
-    private Texture snake2;
-    private Texture snake3;
-    private static int snakePlacement = 50;
-    private static int arrowOffset = 1000;
-    private Texture left;
-    private Texture right;
-
+    private static final int chooseBtnOffset = -550;
+    private static final int snakePlacement = 50;
+    private static final int arrowOffset = 1000;
     private static int snakeNumber;
     private static int totalSnakes;
+    private final Texture background;
+    private final Texture chooseBtn;
+    private final Vector3 touchPos;
+    private final Texture snake1;
+    private final Texture snake2;
+    private final Texture snake3;
+    private final Texture left;
+    private final Texture right;
 
 
     protected GameCustomizeState(GameStateManager gsm) {
@@ -55,21 +53,23 @@ public class GameCustomizeState extends State{
                 if (touchPos.y > cam.position.y + chooseBtnOffset && touchPos.y < cam.position.y + chooseBtnOffset + chooseBtn.getHeight()) {
                     gsm.set(new GameMenuState(gsm));
                 }
-            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset-left.getWidth()))
+            if (touchPos.x > (MyGdxGame.WIDTH / 2 - (arrowOffset)) && touchPos.x < MyGdxGame.WIDTH / 2 - (arrowOffset - left.getWidth()))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + left.getHeight()) {
                     System.out.println("Go left");
                     if (snakeNumber == 1) {
-                        snakeNumber = totalSnakes; }
-                    else {
-                        snakeNumber--; }
+                        snakeNumber = totalSnakes;
+                    } else {
+                        snakeNumber--;
+                    }
                 }
-            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset- right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
+            if (touchPos.x < (MyGdxGame.WIDTH / 2 - (-arrowOffset - right.getWidth())) && touchPos.x > MyGdxGame.WIDTH / 2 + (arrowOffset))
                 if (touchPos.y > cam.position.y + snakePlacement && touchPos.y < cam.position.y + snakePlacement + right.getHeight()) {
                     System.out.println("Go right");
                     if (snakeNumber == totalSnakes) {
-                        snakeNumber = 1; }
-                    else {
-                        snakeNumber++; }
+                        snakeNumber = 1;
+                    } else {
+                        snakeNumber++;
+                    }
                 }
         }
     }
@@ -83,15 +83,13 @@ public class GameCustomizeState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0,0);
-        sb.draw(chooseBtn, cam.position.x - (chooseBtn.getWidth()/2), cam.position.y+chooseBtnOffset);
+        sb.draw(background, 0, 0);
+        sb.draw(chooseBtn, cam.position.x - (chooseBtn.getWidth() / 2), cam.position.y + chooseBtnOffset);
         if (snakeNumber == 1) {
             sb.draw(snake1, cam.position.x - (snake1.getWidth() / 2), cam.position.y + snakePlacement);
-        }
-        else if (snakeNumber == 2) {
+        } else if (snakeNumber == 2) {
             sb.draw(snake2, cam.position.x - (snake2.getWidth() / 2), cam.position.y + snakePlacement);
-        }
-        else {
+        } else {
             sb.draw(snake3, cam.position.x - (snake3.getWidth() / 2), cam.position.y + snakePlacement);
         }
         sb.draw(right, cam.position.x + arrowOffset, cam.position.y + snakePlacement);
