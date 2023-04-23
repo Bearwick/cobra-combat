@@ -5,86 +5,76 @@ import static com.mygdx.game.MyGdxGame.API;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
-import com.mygdx.game.oponentDataCallback;
-import com.mygdx.game.sprites.BodyPart;
-import com.mygdx.game.sprites.Edible;
-import com.mygdx.game.sprites.EdibleFactory;
-import com.mygdx.game.sprites.OpponentSnake;
-import com.mygdx.game.sprites.PlayerSnake;
+import com.mygdx.game.edibles.Edible;
+import com.mygdx.game.edibles.EdibleFactory;
+import com.mygdx.game.opponentDataCallback;
+import com.mygdx.game.snakes.BodyPart;
+import com.mygdx.game.snakes.OpponentSnake;
+import com.mygdx.game.snakes.PlayerSnake;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class GamePlayState extends State implements oponentDataCallback {
-    private String scoreBoard;
-    private Texture background;
-    private ShapeRenderer shapeRenderer;
-    private PlayerSnake player;
-    private OpponentSnake opponent;
-    private Texture leftBtn;
-    private Texture rightBtn;
-    private Vector2 startingPosition;
-    private Vector2 oponentStartingPosition;
-
-    private Vector3 touchPos;
+public class GamePlayState extends State implements opponentDataCallback {
+    private final String opponentName;
+    private final Texture background;
+    private final PlayerSnake player;
+    private final OpponentSnake opponent;
+    private final Vector3 touchPos;
+    private final EdibleFactory edibleFactory;
+    private final ArrayList<Edible> edibleArray;
+    private final String playerName;
+    private final BitmapFont map;
     private float deltaTime;
     private float deltaTime2;
-    private EdibleFactory edibleFactory;
-    private ArrayList<Edible> edibleArray;
+    private PlayerData opponentData;
 
-    private LobbyData lobbyData;
-    private PlayerData oponentData;
-    private String playerName;
-    private String oponentName;
-    private BitmapFont map;
-    protected GamePlayState(GameStateManager gsm, Boolean isPlayer1, LobbyData lobbyData) {
+    public GamePlayState(GameStateManager gsm, Boolean isPlayer1, LobbyData lobbyData) {
         super(gsm);
         cam.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         background = new Texture("dirt.jpg");
         map = new BitmapFont();
-        //shapeRenderer = new ShapeRenderer();
         edibleFactory = new EdibleFactory();
-        this.lobbyData = lobbyData;
-        for (int i=0; i<5; i++){
+        for (int i = 0; i < 5; i++) {
             edibleFactory.getEdible("APPLE");
         }
-        for (int i=0; i<2; i++){
+        for (int i = 0; i < 2; i++) {
             edibleFactory.getEdible("RAINBOW");
         }
         edibleArray = edibleFactory.getEdibleArray();
         touchPos = new Vector3();
-        oponentData = new PlayerData();
+        opponentData = new PlayerData();
 
-        if (isPlayer1){
-            startingPosition = new Vector2(0,0);
-            oponentStartingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO),0);
+        Vector2 opponentStartingPosition;
+        Vector2 startingPosition;
+        if (isPlayer1) {
+            startingPosition = new Vector2(0, 0);
+            opponentStartingPosition = new Vector2(MyGdxGame.GRID_CELL_X * (MyGdxGame.CELL_RATIO), 0);
             playerName = lobbyData.getPlayer1();
-            oponentName = lobbyData.getPlayer2();
-        }
-        else {
-            startingPosition = new Vector2(MyGdxGame.GRID_CELL_X *(MyGdxGame.CELL_RATIO-1),0);
-            oponentStartingPosition = new Vector2(0,0);
+            opponentName = lobbyData.getPlayer2();
+        } else {
+            startingPosition = new Vector2(MyGdxGame.GRID_CELL_X * (MyGdxGame.CELL_RATIO - 1), 0);
+            opponentStartingPosition = new Vector2(0, 0);
             playerName = lobbyData.getPlayer2();
-            oponentName = lobbyData.getPlayer1();
+            opponentName = lobbyData.getPlayer1();
         }
 
         if (GameCustomizeState.getCustomSnake() == 1) {
-            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),startingPosition, playerName);
-            opponent = new OpponentSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),oponentStartingPosition, oponentName);
+            player = new PlayerSnake(new Texture("snakehead.png"), new Texture("snakebody.png"), startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"), opponentStartingPosition);
         } else if (GameCustomizeState.getCustomSnake() == 2) {
-            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"),startingPosition, playerName);
-            opponent = new OpponentSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"),oponentStartingPosition, oponentName);
+            player = new PlayerSnake(new Texture("snakehead2.png"), new Texture("snakebody2.png"), startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"), opponentStartingPosition);
         } else {
-            player = new PlayerSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"),startingPosition, playerName);
-            opponent = new OpponentSnake(new Texture("snakehead.png"), new Texture("snakebody.png"),oponentStartingPosition, oponentName);
+            player = new PlayerSnake(new Texture("snakehead3.png"), new Texture("snakebody3.png"), startingPosition, playerName);
+            opponent = new OpponentSnake(new Texture("snakehead.png"), new Texture("snakebody.png"), opponentStartingPosition);
         }
         API.setGameCallback(this);
 
@@ -98,31 +88,25 @@ public class GamePlayState extends State implements oponentDataCallback {
             cam.unproject(touchPos); // calibrates the input to your camera's dimensions
 
             if (touchPos.x < cam.position.x) {  //Press left side of screen to move 90 degrees counter-clockwise
-                if(player.getDirection() == "up") {
+                if (Objects.equals(player.getDirection(), "up")) {
                     player.setDirection(MyGdxGame.dir_left);
-                }
-                else if (player.getDirection() == "right"){
+                } else if (Objects.equals(player.getDirection(), "right")) {
                     player.setDirection(MyGdxGame.dir_up);
-                }
-                else if (player.getDirection() == "down"){
+                } else if (Objects.equals(player.getDirection(), "down")) {
                     player.setDirection(MyGdxGame.dir_right);
-                }
-                else if(player.getDirection() == "left"){
+                } else if (Objects.equals(player.getDirection(), "left")) {
                     player.setDirection(MyGdxGame.dir_down);
                 }
             }
 
             if (touchPos.x > cam.position.x) { //Press right side of screen to move 90 degrees clock-wise
-                if(player.getDirection() == "up") {
+                if (Objects.equals(player.getDirection(), "up")) {
                     player.setDirection(MyGdxGame.dir_right);
-                }
-                else if (player.getDirection() == "right"){
+                } else if (Objects.equals(player.getDirection(), "right")) {
                     player.setDirection(MyGdxGame.dir_down);
-                }
-                else if (player.getDirection() == "down"){
+                } else if (Objects.equals(player.getDirection(), "down")) {
                     player.setDirection(MyGdxGame.dir_left);
-                }
-                else if(player.getDirection() == "left"){
+                } else if (Objects.equals(player.getDirection(), "left")) {
                     player.setDirection(MyGdxGame.dir_up);
                 }
             }
@@ -151,8 +135,7 @@ public class GamePlayState extends State implements oponentDataCallback {
                 player.addBodyPart(player.getLastTailPosition());
                 edibleFactory.getEdible("APPLE");
                 System.out.println(("APPLE EDIBLE WAS EATEN"));
-            }
-            else if (overlappingEdible.getType().equals("RAINBOW")) { //if type is RAINBOW
+            } else if (overlappingEdible.getType().equals("RAINBOW")) { //if type is RAINBOW
                 deltaTime2 = deltaTime2 % MyGdxGame.GAMESPEED * 4;
                 // Adds three body segments to the snake
                 for (int i = 0; i <= 2; i++) {
@@ -163,17 +146,17 @@ public class GamePlayState extends State implements oponentDataCallback {
             }
         }
 
-        if (player.collides(opponent)){
+        if (player.collides(opponent)) {
             player.setDead();
         }
         if (deltaTime >= MyGdxGame.GAMESPEED) {
             deltaTime = deltaTime % MyGdxGame.GAMESPEED;
             player.move();
             API.sendPos(player.getPlayerData());
-            API.getOponentData(oponentName);
-            if(player.isDead())
+            API.getOpponentData(opponentName);
+            if (player.isDead())
                 gsm.set(new GameOverState(gsm, playerName));
-            if (opponent.isDead()){
+            if (opponent.isDead()) {
                 gsm.set(new VictoryState(gsm, playerName));
             }
         }
@@ -183,41 +166,26 @@ public class GamePlayState extends State implements oponentDataCallback {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(background, 0, 0);
 
-        for (Edible e: edibleArray){
+        for (Edible e : edibleArray) {
             e.getBody().draw(sb);
         }
 
-        for(BodyPart bodypart: player.getBody()){
+        for (BodyPart bodypart : player.getBody()) {
             bodypart.getSprite().draw(sb);
         }
         player.getHead().draw(sb);
 
-        for (BodyPart bodyPart: opponent.getBody())
+        for (BodyPart bodyPart : opponent.getBody())
             bodyPart.getSprite().draw(sb);
         opponent.getHead().draw(sb);
 
-        scoreBoard = playerName + ": " + player.getScore() + "\n" + oponentName + ": " + opponent.getScore();
+        String scoreBoard = playerName + ": " + player.getScore() + "\n" + opponentName + ": " + opponent.getScore();
         map.getData().setScale(5);
         map.draw(sb, scoreBoard, 100, 1300);
 
         sb.end();
-        //drawGrid();
-
-    }
-
-    private void drawGrid(){ //Helper function to draw see-through grid, copy-pasted.
-        shapeRenderer.setProjectionMatrix(cam.projection);
-        shapeRenderer.setTransformMatrix(cam.view);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for (int x = 0; x < MyGdxGame.WIDTH; x += MyGdxGame.GRID_CELL_X){
-            for (int y = 0; y < MyGdxGame.HEIGHT; y += MyGdxGame.GRID_CELL_Y){
-                shapeRenderer.setColor(109f/255f, 255f/255f, 109f/255f, 1.0f);
-                shapeRenderer.rect(x, y, MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
-            }
-        }
-        shapeRenderer.end();
     }
 
     @Override
@@ -226,13 +194,11 @@ public class GamePlayState extends State implements oponentDataCallback {
     }
 
     @Override
-    public void setOponentData(PlayerData opponentData) {
-        //System.out.println("setOponentData : Callback");
-        oponentData = opponentData;
-        if(oponentData == null)
-            System.out.println("oponentData is NULL !!");
+    public void setOpponentData(PlayerData opponentData) {
+        this.opponentData = opponentData;
+        if (this.opponentData == null)
+            System.out.println("opponentData is NULL !!");
         else {
-            //System.out.println(oponentData);
             opponent.setOpponentData(opponentData);
         }
 

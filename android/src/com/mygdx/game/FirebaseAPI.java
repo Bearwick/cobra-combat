@@ -10,34 +10,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mygdx.game.data.LobbyData;
 import com.mygdx.game.data.PlayerData;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.Objects;
 
 public class FirebaseAPI implements API {
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private FirebaseDatabase rtdm;
-    private DatabaseReference lobbyRef;
-    private DatabaseReference gameRef;
-    private Boolean gameJoined;
-    private Boolean gameCreated;
-    private LobbyData lobbyData;
     public lobbyDataCallback apiCallback;
-    public oponentDataCallback oponentCallback;
-    PlayerData opponentData;
+    public opponentDataCallback opponentCallback;
+    private PlayerData opponentData;
+    private final DatabaseReference lobbyRef;
+    private final DatabaseReference gameRef;
+    private Boolean gameJoined;
+    private LobbyData lobbyData;
+
     public FirebaseAPI() {
-        this.rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
+        FirebaseDatabase rtdm = FirebaseDatabase.getInstance("https://cobra-combat-default-rtdb.europe-west1.firebasedatabase.app/");
 
         this.lobbyRef = rtdm.getReference("Lobbies");
         this.gameRef = rtdm.getReference("PlayerData");
         lobbyData = new LobbyData();
         opponentData = new PlayerData();
-        gameCreated=false;
-        gameJoined=false;
-
-        //myRef.child("example").setValue("Kan også2 endre på barna!");
+        gameJoined = false;
     }
 
     @Override
@@ -49,21 +40,23 @@ public class FirebaseAPI implements API {
     //  ---------- Setters Game Lobby ----------
     @Override
     public void createNewLobby(String lobbyName, String playerName) {
-        if(!gameJoined){
-            DatabaseReference gameref = lobbyRef.child(lobbyName);
+        if (!gameJoined) {
+            DatabaseReference gameRef = lobbyRef.child(lobbyName);
             LobbyData data = new LobbyData();
             data.setPlayer1(playerName);
-            gameref.setValue(data);
-            gameJoined=true;
+            gameRef.setValue(data);
+            gameJoined = true;
             apiCallback.createGameCallback();
         }
 
     }
+
     //  ---------- Getters Game Lobby ----------
     @Override
     public void FindLobby(String playerName) {
         joinLobby(playerName);
     }
+
     @Override
     public void deleteLobby(String lobby) {
         lobbyRef.child(lobby).removeValue();
@@ -71,16 +64,13 @@ public class FirebaseAPI implements API {
 
     @Override
     public void checkForNewPlayers(String lobbyName) {
-        if(!gameJoined){
-            lobbyRef.child(lobbyName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    lobbyData = task.getResult().getValue(LobbyData.class);
-                    if (!lobbyData.getPlayer2().equals("none")){
-                        gameJoined=true;
-                        apiCallback.joinGameCallback(lobbyData);
+        if (!gameJoined) {
+            lobbyRef.child(lobbyName).get().addOnCompleteListener(task -> {
+                lobbyData = task.getResult().getValue(LobbyData.class);
+                if (lobbyData != null && !lobbyData.getPlayer2().equals("none")) {
+                    gameJoined = true;
+                    apiCallback.joinGameCallback(lobbyData);
 
-                    }
                 }
             });
         }
@@ -88,61 +78,56 @@ public class FirebaseAPI implements API {
 
     @Override
     public void joinLobby(String playerName) {
-        if (!gameJoined){
-            lobbyRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    for (DataSnapshot ds : task.getResult().getChildren()){
-                        lobbyData = ds.getValue(LobbyData.class);
+        if (!gameJoined) {
+            lobbyRef.get().addOnCompleteListener(task -> {
+                for (DataSnapshot ds : task.getResult().getChildren()) {
+                    lobbyData = ds.getValue(LobbyData.class);
 
-
-                        if(lobbyData.getPlayer2().equals("none") && !lobbyData.getPlayer1().equals("none")){
-                            lobbyData.setPlayer2(playerName);
-                            DatabaseReference gameref = lobbyRef.child(ds.getKey());
-                            gameref.setValue(lobbyData);
-                            gameJoined=true;
-                            apiCallback.joinGameCallback(lobbyData);
-                            break;
-                        }
+                    if (lobbyData != null && lobbyData.getPlayer2().equals("none") && !lobbyData.getPlayer1().equals("none")) {
+                        lobbyData.setPlayer2(playerName);
+                        DatabaseReference gameRef = lobbyRef.child(Objects.requireNonNull(ds.getKey()));
+                        gameRef.setValue(lobbyData);
+                        gameJoined = true;
+                        apiCallback.joinGameCallback(lobbyData);
+                        break;
                     }
-                    if(!lobbyData.getPlayer2().equals("none"))
-                        createNewLobby("newLobby", playerName);
-                    else if (lobbyData.getPlayer1().equals("none"))
-                        createNewLobby("newLobby", playerName);
                 }
+                if (lobbyData != null && !lobbyData.getPlayer2().equals("none"))
+                    createNewLobby("newLobby", playerName);
+                else if (lobbyData != null && lobbyData.getPlayer1().equals("none"))
+                    createNewLobby("newLobby", playerName);
             });
         }
     }
 
 
     @Override
-    public void getOponentData(String oponentName) {
-        gameRef.child(oponentName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                System.out.println("Get Oponent Data: ");
-                opponentData = task.getResult().getValue(PlayerData.class);
-                oponentCallback.setOponentData(opponentData);
-
-            }
+    public void getOpponentData(String opponentName) {
+        gameRef.child(opponentName).get().addOnCompleteListener(task -> {
+            System.out.println("Get Opponent Data: ");
+            opponentData = task.getResult().getValue(PlayerData.class);
+            opponentCallback.setOpponentData(opponentData);
         });
     }
+
     @Override
-    public void resetJoinGameBooleans(){
+    public void resetJoinGameBooleans() {
         this.gameJoined = false;
-        this.gameCreated = false;
         lobbyData = new LobbyData();
     }
+
     @Override
     public void setApiCallback(lobbyDataCallback apiCallback) {
         this.apiCallback = apiCallback;
     }
+
     @Override
-    public void setGameCallback(oponentDataCallback oponentCallback) {
-        this.oponentCallback = oponentCallback;
+    public void setGameCallback(opponentDataCallback oponentCallback) {
+        this.opponentCallback = oponentCallback;
     }
+
     @Override
-    public void deletePlayerData(String playerName){
+    public void deletePlayerData(String playerName) {
         gameRef.child(playerName).removeValue();
     }
 }

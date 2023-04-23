@@ -7,11 +7,11 @@ import java.util.Stack;
 
 public class GameStateManager {
 
-    private Stack<State> states;
+    private final Stack<State> states;
 
-    private API api;
+    private final API api;
 
-    public GameStateManager(API api){
+    public GameStateManager(API api) {
         states = new Stack<>();
         this.api = api;
     }
@@ -20,24 +20,25 @@ public class GameStateManager {
         return this.api;
     }
 
-    public void push(State state){
+    public void push(State state) {
         states.push(state);
     }
 
-    public void pop(){
+    public void pop() {
         states.pop();
     }
 
-    public void set(State state){
+    public void set(State state) {
         states.pop().dispose();
         states.push(state);
     }
 
-    public void update(float dt){
+    public void update(float dt) {
         states.peek().update(dt);
 
     }
-    public void render(SpriteBatch sb){
+
+    public void render(SpriteBatch sb) {
         states.peek().render(sb);
     }
 

@@ -1,4 +1,4 @@
-package com.mygdx.game.sprites;
+package com.mygdx.game.edibles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -6,32 +6,29 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 
-public class Apple implements Edible{
+public class Rainbow implements Edible {
 
-    private Vector2 position;
-    private Sprite body;
-    private Rectangle bounds;
+    private final Vector2 position;
+    private final Sprite body;
+    private final Rectangle bounds;
     private String type;
 
-    public Apple(Vector2 position){
-        this.body = new Sprite(new Texture("apple.png"));
+    public Rainbow(Vector2 position) {
+        this.body = new Sprite(new Texture("rainbow.png"));
         body.setSize(MyGdxGame.GRID_CELL_X, MyGdxGame.GRID_CELL_Y);
         this.position = position;
         body.setPosition(position.x, position.y);
         bounds = new Rectangle(position.x, position.y, body.getWidth(), body.getHeight());
-        setType("APPLE");
+        setType("RAINBOW");
     }
-
-    @Override   //Ikke i bruk per nå, men kanskje den kan brukes for å løse et tilfelle hvor to edibles spawner samme sted
-    public void setPosition(Vector2 position) {
-        this.position = position;
-        body.setPosition(position.x, position.y);
-    }
-
 
     @Override
     public Vector2 getPosition() {
         return position;
+    }
+
+    @Override //See comments in apple edible
+    public void setPosition(Vector2 position) {
     }
 
     @Override
@@ -54,8 +51,8 @@ public class Apple implements Edible{
         this.type = type;
     }
 
+
     @Override
     public void dispose() {
-
     }
 }
