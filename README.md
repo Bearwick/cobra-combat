@@ -7,7 +7,8 @@ Cobra Combat is an online multiplayer snake game where two players battle agains
     1. Download and open the latest version of Android Studio
     2. Setup an Android device with an Android API version of ***26 or higher***
     3. Pull the Cobra Combat git repository
-    4. Launch the AndroidLauncher-file (can be selected at the top-right part of the IDE, then click the green 'play'-button)
+    4. Create a file called `local.properties` in the root of the and copy the following: `sdk.dir=[ENTER SDK LOCATION HERE]` (more info on how to find your android SDK can be found in [CONTRIBUTING](https://gitlab.stud.idi.ntnu.no/tdt4240progark/cobracombat/-/blob/main/CONTRIBUTING.md) on the 'Error SDK location not found'-section)
+    5. Launch the AndroidLauncher-file (can be selected at the top-right part of the IDE, then click the green 'play'-button)
 
 - __Using the APK:__
     1. Download the Cobra Combat APK file
