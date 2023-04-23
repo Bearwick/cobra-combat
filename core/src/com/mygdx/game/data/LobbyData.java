@@ -37,11 +37,6 @@ public class LobbyData {
             this.player2 = player2 + "2";
     }
 
-    public void reset() {
-        setPlayer1("none");
-        setPlayer2("none");
-    }
-
     public String toString() {
         return (String.format("player1: %s, player2: %s, isStarted: %s", player1, player2));
     }

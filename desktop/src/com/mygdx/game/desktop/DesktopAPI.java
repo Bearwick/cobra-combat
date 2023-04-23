@@ -39,7 +39,7 @@ public class DesktopAPI implements API {
 	}
 
 	@Override
-	public void FindLobby(String playerName) {
+	public void findLobby(String playerName) {
 		LobbyData lobbyData = new LobbyData();
 		lobbyData.setPlayer1("DesktopPlayer1");
 		lobbyData.setPlayer2("hei<3");

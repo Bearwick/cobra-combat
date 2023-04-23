@@ -47,7 +47,7 @@ public class GameLobbyState extends State implements lobbyDataCallback {
     }
 
     private void joinGameLobby() {
-        API.FindLobby(playerName);
+        API.findLobby(playerName);
     }
 
     @Override

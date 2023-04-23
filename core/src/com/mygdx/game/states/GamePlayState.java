@@ -112,7 +112,6 @@ public class GamePlayState extends State implements opponentDataCallback {
             }
         }
 
-        //Remember to remove this before delivery!! This is only for desktop testing!
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.setDirection(MyGdxGame.dir_up);
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.setDirection(MyGdxGame.dir_down);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.setDirection(MyGdxGame.dir_right);

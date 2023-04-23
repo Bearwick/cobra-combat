@@ -14,7 +14,7 @@ public interface API {
     void checkForNewPlayers(String lobby);
 
     //  ---------- Getters Game Lobby ----------
-    void FindLobby(String playerName);
+    void findLobby(String playerName);
 
     void resetJoinGameBooleans();
     void setApiCallback(lobbyDataCallback getLobbyData);

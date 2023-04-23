@@ -53,7 +53,7 @@ public class FirebaseAPI implements API {
 
     //  ---------- Getters Game Lobby ----------
     @Override
-    public void FindLobby(String playerName) {
+    public void findLobby(String playerName) {
         joinLobby(playerName);
     }
 
